@@ -8,6 +8,13 @@ public struct CellConfiguration {
     public var showDisclosure: Bool = true
     public var useTitleTextView: Bool = false
     
+    // Font and color customization
+    public var titleFont: UIFont?
+    public var iconTintColor: UIColor?
+    public var badgeBackgroundColor: UIColor?
+    public var badgeTextColor: UIColor?
+    public var disclosureColor: UIColor?
+    
     public init() {}
     
     public init(
@@ -16,7 +23,12 @@ public struct CellConfiguration {
         metadataConfigs: [MetadataViewConfig] = [],
         showBadge: Bool = true,
         showDisclosure: Bool = true,
-        useTitleTextView: Bool = false
+        useTitleTextView: Bool = false,
+        titleFont: UIFont? = nil,
+        iconTintColor: UIColor? = nil,
+        badgeBackgroundColor: UIColor? = nil,
+        badgeTextColor: UIColor? = nil,
+        disclosureColor: UIColor? = nil
     ) {
         self.style = style
         self.metadataViewCount = metadataViewCount
@@ -24,6 +36,11 @@ public struct CellConfiguration {
         self.showBadge = showBadge
         self.showDisclosure = showDisclosure
         self.useTitleTextView = useTitleTextView
+        self.titleFont = titleFont
+        self.iconTintColor = iconTintColor
+        self.badgeBackgroundColor = badgeBackgroundColor
+        self.badgeTextColor = badgeTextColor
+        self.disclosureColor = disclosureColor
     }
 }
 

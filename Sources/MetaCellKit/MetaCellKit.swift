@@ -300,6 +300,7 @@ public class MetaCellKit: UITableViewCell {
     }
     
     private func applyStyleConfiguration() {
+        // Apply card styling based on cell style
         switch cellStyle {
         case .master:
             cardView.layer.cornerRadius = 10
@@ -330,6 +331,33 @@ public class MetaCellKit: UITableViewCell {
             bottomConstraint.constant = -10
             leadingConstraint.constant = 16
             trailingConstraint.constant = -16
+        }
+        
+        // Apply custom configuration options
+        if let config = configuration {
+            // Apply custom title font
+            if let titleFont = config.titleFont {
+                titleLabel.font = titleFont
+                titleTextView.font = titleFont
+            }
+            
+            // Apply custom icon tint color
+            if let iconTintColor = config.iconTintColor {
+                iconImageView.tintColor = iconTintColor
+            }
+            
+            // Apply custom badge styling
+            if let badgeBackgroundColor = config.badgeBackgroundColor {
+                badgeLabel.backgroundColor = badgeBackgroundColor
+            }
+            if let badgeTextColor = config.badgeTextColor {
+                badgeLabel.textColor = badgeTextColor
+            }
+            
+            // Apply custom disclosure color
+            if let disclosureColor = config.disclosureColor {
+                disclosureImageView.tintColor = disclosureColor
+            }
         }
         
         setNeedsLayout()
