@@ -2,6 +2,10 @@
 
 A comprehensive, production-ready Swift package that provides a unified, highly configurable table view cell system for iOS apps. CellKit replaces multiple specialized cell classes with a single, parametric solution that supports 0-3 configurable metadata views with automatic date formatting.
 
+## Origin Story
+
+CellKit was born from real-world necessity. Originally developed and extensively refined within [addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8), a productivity app based on the Assess - Decide - Do framework, where it powers thousands of task list interactions daily. Through continuous use and iteration in a production environment, CellKit evolved from a simple cell component into a robust, feature-complete solution. The decision to extract and open-source CellKit came from recognizing that many iOS developers face the same challenge: managing multiple specialized table view cells across their apps. What started as an internal solution has now become a universal tool for the iOS development community.
+
 ## Features
 
 ### 🏗️ Unified Cell Architecture
@@ -306,6 +310,14 @@ We welcome contributions! Please:
 - 📖 [Documentation](Documentation/)
 - 🐛 [Issues](https://github.com/dragosroua/CellKit/issues)
 - 💬 [Discussions](https://github.com/dragosroua/CellKit/discussions)
+
+## Apps Using CellKit
+
+CellKit is actively used in production apps, powering thousands of user interactions daily:
+
+- **[addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8)** - A comprehensive task management app where CellKit originated. Used throughout the app for task lists, project views, and settings screens, handling complex metadata display including priorities, due dates, contexts, and progress indicators.
+
+*Using CellKit in your app? [Let us know](https://github.com/dragosroua/CellKit/discussions) and we'll add it to this list!*
 
 ---
 
