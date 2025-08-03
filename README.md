@@ -36,6 +36,24 @@ MetaCellKit was born from real-world necessity. Originally developed and extensi
 - **Reflection-based binding** for flexible content
 - **Type-agnostic metadata** content support
 
+## Visual Examples
+
+### addTaskManager Collection Views
+![MetaCellKit Demo](Documentation/Assets/metacellkit-demo-small.gif)
+
+*Live demonstration showing MetaCellKit's flexible configurations, smooth animations, and different metadata layouts in action.*
+
+### Layout Configurations
+
+<p align="center">
+  <img src="Documentation/Assets/master-assess.png" width="200" alt="Master Style">
+  <img src="Documentation/Assets/decide-2-metaviews.png" width="200" alt="2 Metadata Views">
+  <img src="Documentation/Assets/decide-3-metaviews.png" width="200" alt="3 Metadata Views">
+  <img src="Documentation/Assets/do-project-view.png" width="200" alt="Project View">
+</p>
+
+*From left to right: Master style in the Assess view, Detail style with 2 metadata views, Detail style with 3 metadata views, and Project view layout demonstrating MetaCellKit's versatility across different content types.*
+
 ## Installation
 
 ### Swift Package Manager
