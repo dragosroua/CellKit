@@ -2,9 +2,9 @@ import UIKit
 
 // MARK: - Example Usage and Sample Data
 
-public extension CellKit {
+public extension MetaCellKit {
     
-    /// Example data model for demonstrating CellKit functionality
+    /// Example data model for demonstrating MetaCellKit functionality
     struct TaskData: CellDataProtocol {
         public let title: String
         public let icon: UIImage?
@@ -122,8 +122,8 @@ public extension CellKit {
     static func exampleTableViewUsage() -> String {
         return """
         // Basic usage
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit") as! CellKit
-        let taskData = CellKit.TaskData(
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit") as! MetaCellKit
+        let taskData = MetaCellKit.TaskData(
             title: "Complete project proposal",
             icon: UIImage(systemName: "doc.text"),
             badge: "3",
@@ -136,7 +136,7 @@ public extension CellKit {
         cell.configure(with: taskData, metadataViews: 2, style: .detail)
         
         // Advanced configuration
-        let config = CellKit.dualMetadataConfiguration(style: .detail)
+        let config = MetaCellKit.dualMetadataConfiguration(style: .detail)
         cell.configure(with: taskData, configuration: config)
         """
     }
@@ -144,11 +144,11 @@ public extension CellKit {
 
 // MARK: - Sample Data Factory
 
-public class CellKitSampleData {
+public class MetaCellKitSampleData {
     
-    public static func sampleTasks() -> [CellKit.TaskData] {
+    public static func sampleTasks() -> [MetaCellKit.TaskData] {
         return [
-            CellKit.TaskData(
+            MetaCellKit.TaskData(
                 title: "Review quarterly reports",
                 icon: UIImage(systemName: "chart.bar.doc.horizontal"),
                 badge: "5",
@@ -157,7 +157,7 @@ public class CellKitSampleData {
                 context: "Work",
                 status: "Pending"
             ),
-            CellKit.TaskData(
+            MetaCellKit.TaskData(
                 title: "Plan weekend trip",
                 icon: UIImage(systemName: "airplane"),
                 badge: nil,
@@ -166,7 +166,7 @@ public class CellKitSampleData {
                 context: "Personal",
                 status: "In Progress"
             ),
-            CellKit.TaskData(
+            MetaCellKit.TaskData(
                 title: "Buy groceries",
                 icon: UIImage(systemName: "cart"),
                 badge: "12",
@@ -175,7 +175,7 @@ public class CellKitSampleData {
                 context: "Home",
                 status: "Not Started"
             ),
-            CellKit.TaskData(
+            MetaCellKit.TaskData(
                 title: "Call dentist for appointment",
                 icon: UIImage(systemName: "phone"),
                 badge: nil,
@@ -184,7 +184,7 @@ public class CellKitSampleData {
                 context: "Health",
                 status: "Pending"
             ),
-            CellKit.TaskData(
+            MetaCellKit.TaskData(
                 title: "Finish reading Swift documentation",
                 icon: UIImage(systemName: "book"),
                 badge: "3",
@@ -198,14 +198,14 @@ public class CellKitSampleData {
     
     public static func sampleConfigurations() -> [CellConfiguration] {
         return [
-            CellKit.basicConfiguration(),
-            CellKit.singleMetadataConfiguration(),
-            CellKit.dualMetadataConfiguration(),
-            CellKit.tripleMetadataConfiguration(),
-            CellKit.basicConfiguration(style: .detail),
-            CellKit.singleMetadataConfiguration(style: .detail),
-            CellKit.dualMetadataConfiguration(style: .detail),
-            CellKit.tripleMetadataConfiguration(style: .detail)
+            MetaCellKit.basicConfiguration(),
+            MetaCellKit.singleMetadataConfiguration(),
+            MetaCellKit.dualMetadataConfiguration(),
+            MetaCellKit.tripleMetadataConfiguration(),
+            MetaCellKit.basicConfiguration(style: .detail),
+            MetaCellKit.singleMetadataConfiguration(style: .detail),
+            MetaCellKit.dualMetadataConfiguration(style: .detail),
+            MetaCellKit.tripleMetadataConfiguration(style: .detail)
         ]
     }
 }

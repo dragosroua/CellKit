@@ -1,13 +1,13 @@
 # Advanced Configuration Examples
 
-This guide showcases advanced CellKit configurations for complex use cases and custom styling requirements.
+This guide showcases advanced MetaCellKit configurations for complex use cases and custom styling requirements.
 
 ## Dynamic Configuration Factory
 
 Create a sophisticated configuration system that adapts to data:
 
 ```swift
-import CellKit
+import MetaCellKit
 import UIKit
 
 class ProjectTaskConfigurationFactory {
@@ -390,7 +390,7 @@ Implement smooth transitions between different configurations:
 class AnimatedCellConfigurationManager {
     
     static func animateConfigurationChange(
-        in cell: CellKit,
+        in cell: MetaCellKit,
         from oldData: any CellDataProtocol,
         to newData: any CellDataProtocol,
         duration: TimeInterval = 0.3
@@ -426,7 +426,7 @@ class AnimatedCellConfigurationManager {
 
 // Usage in your table view controller
 override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
     let newData = items[indexPath.row]
     
     // Get the old data if this is an update
@@ -474,14 +474,14 @@ class ConfigurationPool {
     
     static func preloadConfigurations() {
         let commonConfigurations: [(String, CellConfiguration)] = [
-            ("basic_master", CellKit.basicConfiguration(style: .master)),
-            ("basic_detail", CellKit.basicConfiguration(style: .detail)),
-            ("single_master", CellKit.singleMetadataConfiguration(style: .master)),
-            ("single_detail", CellKit.singleMetadataConfiguration(style: .detail)),
-            ("dual_master", CellKit.dualMetadataConfiguration(style: .master)),
-            ("dual_detail", CellKit.dualMetadataConfiguration(style: .detail)),
-            ("triple_master", CellKit.tripleMetadataConfiguration(style: .master)),
-            ("triple_detail", CellKit.tripleMetadataConfiguration(style: .detail))
+            ("basic_master", MetaCellKit.basicConfiguration(style: .master)),
+            ("basic_detail", MetaCellKit.basicConfiguration(style: .detail)),
+            ("single_master", MetaCellKit.singleMetadataConfiguration(style: .master)),
+            ("single_detail", MetaCellKit.singleMetadataConfiguration(style: .detail)),
+            ("dual_master", MetaCellKit.dualMetadataConfiguration(style: .master)),
+            ("dual_detail", MetaCellKit.dualMetadataConfiguration(style: .detail)),
+            ("triple_master", MetaCellKit.tripleMetadataConfiguration(style: .master)),
+            ("triple_detail", MetaCellKit.tripleMetadataConfiguration(style: .detail))
         ]
         
         cacheQueue.async(flags: .barrier) {
@@ -507,7 +507,7 @@ class OptimizedTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
         let item = items[indexPath.row]
         
         let configKey = "\(item.type)_\(item.priority)_\(item.style)"
@@ -749,4 +749,4 @@ class MultiLevelConfigurationEngine {
 }
 ```
 
-These advanced configuration examples demonstrate the flexibility and power of CellKit's configuration system, enabling sophisticated, adaptive user interfaces that respond to context, user preferences, and device capabilities.
+These advanced configuration examples demonstrate the flexibility and power of MetaCellKit's configuration system, enabling sophisticated, adaptive user interfaces that respond to context, user preferences, and device capabilities.

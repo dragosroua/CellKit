@@ -1,12 +1,12 @@
-# CellKit Documentation
+# MetaCellKit Documentation
 
-Welcome to the comprehensive documentation for CellKit - a unified, highly configurable table view cell system for iOS apps.
+Welcome to the comprehensive documentation for MetaCellKit - a unified, highly configurable table view cell system for iOS apps.
 
 ## 📚 Documentation Structure
 
 ### [API Reference](API/)
 Complete API documentation for all public classes, structs, and protocols:
-- [CellKit](API/CellKit.md) - Main cell class
+- [MetaCellKit](API/MetaCellKit.md) - Main cell class
 - [CellConfiguration](API/CellConfiguration.md) - Configuration system
 - [MetadataViewConfig](API/MetadataViewConfig.md) - Metadata view configuration
 - [CellDataProtocol](API/CellDataProtocol.md) - Data binding protocol
@@ -31,7 +31,7 @@ Practical examples and use cases:
 
 ## 🚀 Quick Navigation
 
-### New to CellKit?
+### New to MetaCellKit?
 Start with [Getting Started](Tutorials/GettingStarted.md) to learn the basics.
 
 ### Looking for specific functionality?
@@ -46,7 +46,7 @@ Read the [Migration Guide](Tutorials/Migration.md) for step-by-step instructions
 ## 📖 Key Concepts
 
 ### Unified Cell Architecture
-CellKit provides a single cell class that can be configured for different use cases, replacing the need for multiple specialized cell classes.
+MetaCellKit provides a single cell class that can be configured for different use cases, replacing the need for multiple specialized cell classes.
 
 ### Layout Variants
 - **Basic**: Icon + Title + Badge + Disclosure
@@ -59,18 +59,18 @@ CellKit provides a single cell class that can be configured for different use ca
 - **Detail Style**: Enhanced paper-like styling for detail views
 
 ### Automatic Data Binding
-CellKit uses reflection to automatically bind data properties to UI elements, with special handling for dates and common property names.
+MetaCellKit uses reflection to automatically bind data properties to UI elements, with special handling for dates and common property names.
 
 ## 🔗 External Resources
 
-- [GitHub Repository](https://github.com/dragosroua/CellKit)
-- [Release Notes](https://github.com/dragosroua/CellKit/releases)
-- [Contributing Guidelines](https://github.com/dragosroua/CellKit/blob/main/CONTRIBUTING.md)
-- [Issue Tracker](https://github.com/dragosroua/CellKit/issues)
+- [GitHub Repository](https://github.com/dragosroua/MetaCellKit)
+- [Release Notes](https://github.com/dragosroua/MetaCellKit/releases)
+- [Contributing Guidelines](https://github.com/dragosroua/MetaCellKit/blob/main/CONTRIBUTING.md)
+- [Issue Tracker](https://github.com/dragosroua/MetaCellKit/issues)
 
 ## 📝 Feedback
 
-Found an issue with the documentation? Please [create an issue](https://github.com/dragosroua/CellKit/issues/new) or contribute improvements via pull request.
+Found an issue with the documentation? Please [create an issue](https://github.com/dragosroua/MetaCellKit/issues/new) or contribute improvements via pull request.
 
 ---
 

@@ -126,9 +126,9 @@ progressBadge.setBadgeValue(3.7)    // Shows "3.7"
 progressBadge.setBadgeValue(0.0)    // Hides badge
 ```
 
-## Integration with CellKit
+## Integration with MetaCellKit
 
-`DynamicBadgeLabel` is automatically used within `CellKit` for badge display:
+`DynamicBadgeLabel` is automatically used within `MetaCellKit` for badge display:
 
 ```swift
 // Data with badge property
@@ -261,6 +261,6 @@ UIView.animate(withDuration: 0.3) {
 
 ## See Also
 
-- [CellKit](CellKit.md) - Main cell class that uses DynamicBadgeLabel
+- [MetaCellKit](MetaCellKit.md) - Main cell class that uses DynamicBadgeLabel
 - [CellDataProtocol](CellDataProtocol.md) - Data binding for badge values
 - [MetadataView](MetadataView.md) - Similar component for metadata display

@@ -1,10 +1,10 @@
-# CellKit
+# MetaCellKit
 
-A comprehensive, production-ready Swift package that provides a unified, highly configurable table view cell system for iOS apps. CellKit replaces multiple specialized cell classes with a single, parametric solution that supports 0-3 configurable metadata views with automatic date formatting.
+A comprehensive, production-ready Swift package that provides a unified, highly configurable table view cell system for iOS apps. MetaCellKit replaces multiple specialized cell classes with a single, parametric solution that supports 0-3 configurable metadata views with automatic date formatting.
 
 ## Origin Story
 
-CellKit was born from real-world necessity. Originally developed and extensively refined within [addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8), a productivity app based on the Assess - Decide - Do framework, where it powers thousands of task list interactions daily. Through continuous use and iteration in a production environment, CellKit evolved from a simple cell component into a robust, feature-complete solution. The decision to extract and open-source CellKit came from recognizing that many iOS developers face the same challenge: managing multiple specialized table view cells across their apps. What started as an internal solution has now become a universal tool for the iOS development community.
+MetaCellKit was born from real-world necessity. Originally developed and extensively refined within [addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8), a productivity app based on the Assess - Decide - Do framework, where it powers thousands of task list interactions daily. Through continuous use and iteration in a production environment, MetaCellKit evolved from a simple cell component into a robust, feature-complete solution. The decision to extract and open-source MetaCellKit came from recognizing that many iOS developers face the same challenge: managing multiple specialized table view cells across their apps. What started as an internal solution has now become a universal tool for the iOS development community.
 
 ## Features
 
@@ -36,17 +36,17 @@ CellKit was born from real-world necessity. Originally developed and extensively
 
 ### Swift Package Manager
 
-Add CellKit to your project using Swift Package Manager:
+Add MetaCellKit to your project using Swift Package Manager:
 
 1. In Xcode, go to **File → Add Package Dependencies**
-2. Enter the repository URL: `https://github.com/dragosroua/CellKit`
+2. Enter the repository URL: `https://github.com/dragosroua/MetaCellKit`
 3. Choose the version and add to your target
 
 Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/dragosroua/CellKit", from: "1.0.0")
+    .package(url: "https://github.com/dragosroua/MetaCellKit", from: "1.0.0")
 ]
 ```
 
@@ -55,13 +55,13 @@ dependencies: [
 ### Basic Usage
 
 ```swift
-import CellKit
+import MetaCellKit
 
 // In your table view cell configuration
-let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit") as! CellKit
+let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit") as! MetaCellKit
 
 // Simple configuration
-let taskData = CellKit.TaskData(
+let taskData = MetaCellKit.TaskData(
     title: "Complete project proposal",
     icon: UIImage(systemName: "doc.text"),
     badge: "3",
@@ -114,7 +114,7 @@ cell.configure(with: taskData, configuration: config)
 Icon + Title + Badge + Disclosure indicator
 
 ```swift
-let config = CellKit.basicConfiguration(style: .master)
+let config = MetaCellKit.basicConfiguration(style: .master)
 cell.configure(with: data, configuration: config)
 ```
 
@@ -129,7 +129,7 @@ cell.configure(with: data, metadataViews: 1, style: .detail)
 Basic layout + 2 configurable metadata views
 
 ```swift
-let config = CellKit.dualMetadataConfiguration(style: .detail)
+let config = MetaCellKit.dualMetadataConfiguration(style: .detail)
 cell.configure(with: data, configuration: config)
 ```
 
@@ -137,7 +137,7 @@ cell.configure(with: data, configuration: config)
 Basic layout + 3 configurable metadata views
 
 ```swift
-let config = CellKit.tripleMetadataConfiguration(style: .master)
+let config = MetaCellKit.tripleMetadataConfiguration(style: .master)
 cell.configure(with: data, configuration: config)
 ```
 
@@ -155,7 +155,7 @@ cell.configure(with: data, configuration: config)
 
 ## Automatic Date Formatting
 
-CellKit automatically detects `Date` properties in your data models and formats them appropriately:
+MetaCellKit automatically detects `Date` properties in your data models and formats them appropriately:
 
 ```swift
 struct TaskData: CellDataProtocol {
@@ -188,7 +188,7 @@ struct MyTaskData: CellDataProtocol {
 
 ## Components
 
-### CellKit
+### MetaCellKit
 The main cell class that handles all layout variants and configurations.
 
 ### CellConfiguration
@@ -222,10 +222,10 @@ Automatic date formatting with multiple styles:
 
 ```swift
 // Register the cell
-tableView.register(CellKit.self, forCellReuseIdentifier: "CellKit")
+tableView.register(MetaCellKit.self, forCellReuseIdentifier: "MetaCellKit")
 
 // In cellForRowAt
-let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
 let data = yourDataArray[indexPath.row]
 cell.configure(with: data, metadataViews: 2, style: .detail)
 return cell
@@ -245,7 +245,7 @@ tableView.estimatedRowHeight = 80
 
 If you're currently using multiple specialized cell classes:
 
-1. **Replace cell classes** with `CellKit`
+1. **Replace cell classes** with `MetaCellKit`
 2. **Convert cell data** to conform to `CellDataProtocol`
 3. **Create configurations** that match your existing designs
 4. **Update table view** registration and dequeue calls
@@ -258,15 +258,15 @@ class BasicTaskCell: UITableViewCell { ... }
 class DetailTaskCell: UITableViewCell { ... }
 class PriorityTaskCell: UITableViewCell { ... }
 
-// After: Single CellKit with configurations
-let basicConfig = CellKit.basicConfiguration()
-let detailConfig = CellKit.singleMetadataConfiguration(style: .detail)
-let priorityConfig = CellKit.dualMetadataConfiguration()
+// After: Single MetaCellKit with configurations
+let basicConfig = MetaCellKit.basicConfiguration()
+let detailConfig = MetaCellKit.singleMetadataConfiguration(style: .detail)
+let priorityConfig = MetaCellKit.dualMetadataConfiguration()
 ```
 
 ## Performance
 
-CellKit is optimized for:
+MetaCellKit is optimized for:
 - **Cell reuse**: Efficient `prepareForReuse` implementation
 - **Memory management**: Minimal object allocation
 - **Layout performance**: Constraint-based layout with caching
@@ -284,8 +284,8 @@ Check out the included sample data and configurations:
 
 ```swift
 // Use sample data for testing
-let sampleTasks = CellKitSampleData.sampleTasks()
-let sampleConfigs = CellKitSampleData.sampleConfigurations()
+let sampleTasks = MetaCellKitSampleData.sampleTasks()
+let sampleConfigs = MetaCellKitSampleData.sampleConfigurations()
 
 // Quick testing in your table view
 cell.configure(with: sampleTasks[0], configuration: sampleConfigs[2])
@@ -293,7 +293,7 @@ cell.configure(with: sampleTasks[0], configuration: sampleConfigs[2])
 
 ## License
 
-CellKit is available under the MIT license. See [LICENSE](LICENSE) for details.
+MetaCellKit is available under the MIT license. See [LICENSE](LICENSE) for details.
 
 ## Contributing
 
@@ -308,17 +308,17 @@ We welcome contributions! Please:
 ## Support
 
 - 📖 [Documentation](Documentation/)
-- 🐛 [Issues](https://github.com/dragosroua/CellKit/issues)
-- 💬 [Discussions](https://github.com/dragosroua/CellKit/issues)
+- 🐛 [Issues](https://github.com/dragosroua/MetaCellKit/issues)
+- 💬 [Discussions](https://github.com/dragosroua/MetaCellKit/issues)
 
-## Apps Using CellKit
+## Apps Using MetaCellKit
 
-CellKit is actively used in production apps, powering thousands of user interactions daily:
+MetaCellKit is actively used in production apps, powering thousands of user interactions daily:
 
-- **[addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8)** - A comprehensive task management app where CellKit originated. Used throughout the app for task lists, project views, and settings screens, handling complex metadata display including priorities, due dates, contexts, and progress indicators.
+- **[addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8)** - A comprehensive task management app where MetaCellKit originated. Used throughout the app for task lists, project views, and settings screens, handling complex metadata display including priorities, due dates, contexts, and progress indicators.
 
-*Using CellKit in your app? [Let us know](https://github.com/dragosroua/CellKit/issues) and we'll add it to this list!*
+*Using MetaCellKit in your app? [Let us know](https://github.com/dragosroua/MetaCellKit/issues) and we'll add it to this list!*
 
 ---
 
-**CellKit** - One cell to rule them all. ✨
+**MetaCellKit** - One cell to rule them all. ✨

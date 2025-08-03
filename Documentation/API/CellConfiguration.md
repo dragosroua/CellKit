@@ -1,10 +1,10 @@
 # CellConfiguration
 
-A configuration structure that defines the layout, styling, and behavior of a `CellKit` instance.
+A configuration structure that defines the layout, styling, and behavior of a `MetaCellKit` instance.
 
 ## Overview
 
-`CellConfiguration` provides a comprehensive way to customize the appearance and behavior of `CellKit` cells. It controls layout variants, visual styles, content visibility, and metadata view configurations.
+`CellConfiguration` provides a comprehensive way to customize the appearance and behavior of `MetaCellKit` cells. It controls layout variants, visual styles, content visibility, and metadata view configurations.
 
 ## Declaration
 
@@ -19,7 +19,7 @@ public struct CellConfiguration
 #### `style`
 
 ```swift
-public var style: CellKit.CellStyle = .master
+public var style: MetaCellKit.CellStyle = .master
 ```
 
 The visual style of the cell.
@@ -84,7 +84,7 @@ Creates a configuration with default values.
 
 ```swift
 public init(
-    style: CellKit.CellStyle = .master,
+    style: MetaCellKit.CellStyle = .master,
     metadataViewCount: Int = 0,
     metadataConfigs: [MetadataViewConfig] = [],
     showBadge: Bool = true,
@@ -151,17 +151,17 @@ let config = CellConfiguration(
 
 ## Pre-configured Options
 
-`CellKit` provides convenience methods for common configurations:
+`MetaCellKit` provides convenience methods for common configurations:
 
 ```swift
 // Basic layouts
-let basicMaster = CellKit.basicConfiguration(style: .master)
-let basicDetail = CellKit.basicConfiguration(style: .detail)
+let basicMaster = MetaCellKit.basicConfiguration(style: .master)
+let basicDetail = MetaCellKit.basicConfiguration(style: .detail)
 
 // Metadata layouts
-let singleMetadata = CellKit.singleMetadataConfiguration(style: .detail)
-let dualMetadata = CellKit.dualMetadataConfiguration(style: .master)
-let tripleMetadata = CellKit.tripleMetadataConfiguration(style: .detail)
+let singleMetadata = MetaCellKit.singleMetadataConfiguration(style: .detail)
+let dualMetadata = MetaCellKit.dualMetadataConfiguration(style: .master)
+let tripleMetadata = MetaCellKit.tripleMetadataConfiguration(style: .detail)
 ```
 
 ## Best Practices
@@ -217,6 +217,6 @@ func cellForRowAt(...) -> UITableViewCell {
 
 ## See Also
 
-- [CellKit](CellKit.md) - Main cell class
+- [MetaCellKit](MetaCellKit.md) - Main cell class
 - [MetadataViewConfig](MetadataViewConfig.md) - Metadata view configuration
 - [CellDataProtocol](CellDataProtocol.md) - Data binding protocol

@@ -1,5 +1,5 @@
 import XCTest
-@testable import CellKit
+@testable import MetaCellKit
 import Foundation
 
 final class DateFormattingTests: XCTestCase {

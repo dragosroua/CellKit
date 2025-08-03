@@ -1,6 +1,6 @@
 # MetadataViewConfig
 
-A configuration structure that defines the appearance and content of metadata views within a `CellKit` cell.
+A configuration structure that defines the appearance and content of metadata views within a `MetaCellKit` cell.
 
 ## Overview
 
@@ -283,5 +283,5 @@ let cellConfig = CellConfiguration(
 ## See Also
 
 - [CellConfiguration](CellConfiguration.md) - Complete cell configuration
-- [CellKit](CellKit.md) - Main cell class
+- [MetaCellKit](MetaCellKit.md) - Main cell class
 - [MetadataView](MetadataView.md) - Metadata view implementation

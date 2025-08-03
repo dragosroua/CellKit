@@ -1,10 +1,10 @@
 # Configuration Guide
 
-Learn how to use `CellConfiguration` and `MetadataViewConfig` to customize CellKit cells for your specific needs.
+Learn how to use `CellConfiguration` and `MetadataViewConfig` to customize MetaCellKit cells for your specific needs.
 
 ## Overview
 
-CellKit provides two main configuration approaches:
+MetaCellKit provides two main configuration approaches:
 1. **Simple Configuration** - Quick setup with sensible defaults
 2. **Advanced Configuration** - Full control over appearance and behavior
 
@@ -12,7 +12,7 @@ CellKit provides two main configuration approaches:
 
 ### Basic Usage
 
-The simplest way to configure a CellKit cell:
+The simplest way to configure a MetaCellKit cell:
 
 ```swift
 // Just specify the number of metadata views
@@ -30,19 +30,19 @@ Use built-in configuration helpers:
 
 ```swift
 // Basic layout (no metadata)
-let basicConfig = CellKit.basicConfiguration(style: .master)
+let basicConfig = MetaCellKit.basicConfiguration(style: .master)
 cell.configure(with: data, configuration: basicConfig)
 
 // Single metadata view
-let singleConfig = CellKit.singleMetadataConfiguration(style: .detail)
+let singleConfig = MetaCellKit.singleMetadataConfiguration(style: .detail)
 cell.configure(with: data, configuration: singleConfig)
 
 // Dual metadata views
-let dualConfig = CellKit.dualMetadataConfiguration(style: .master)
+let dualConfig = MetaCellKit.dualMetadataConfiguration(style: .master)
 cell.configure(with: data, configuration: dualConfig)
 
 // Triple metadata views
-let tripleConfig = CellKit.tripleMetadataConfiguration(style: .detail)
+let tripleConfig = MetaCellKit.tripleMetadataConfiguration(style: .detail)
 cell.configure(with: data, configuration: tripleConfig)
 ```
 
@@ -302,7 +302,7 @@ config.useTitleTextView = true  // Enables multi-line, selection, etc.
 ### Based on Data
 
 ```swift
-func configureCell(_ cell: CellKit, with task: Task) {
+func configureCell(_ cell: MetaCellKit, with task: Task) {
     var config = CellConfiguration()
     
     // Style based on importance
@@ -344,12 +344,12 @@ func configureCell(_ cell: CellKit, with task: Task) {
 
 ```swift
 override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
     let task = tasks[indexPath.row]
     
     // Different configuration for first item
     if indexPath.row == 0 {
-        let config = CellKit.tripleMetadataConfiguration(style: .detail)
+        let config = MetaCellKit.tripleMetadataConfiguration(style: .detail)
         cell.configure(with: task, configuration: config)
     } else {
         cell.configure(with: task, metadataViews: 1, style: .master)
@@ -378,10 +378,10 @@ class TaskListViewController: UITableViewController {
         return config
     }()
     
-    private let lowPriorityConfig = CellKit.basicConfiguration(style: .master)
+    private let lowPriorityConfig = MetaCellKit.basicConfiguration(style: .master)
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
         let task = tasks[indexPath.row]
         
         // Use pre-created configurations
@@ -478,7 +478,7 @@ config.useTitleTextView = UIAccessibility.isVoiceOverRunning  // Better VoiceOve
 
 ## Summary
 
-CellKit's configuration system provides:
+MetaCellKit's configuration system provides:
 - **Simple APIs** for common use cases
 - **Advanced control** for custom requirements
 - **Performance optimization** through reusable configurations

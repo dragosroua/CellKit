@@ -1,10 +1,10 @@
 # Migration Guide
 
-This guide helps you migrate from existing table view cell implementations to CellKit.
+This guide helps you migrate from existing table view cell implementations to MetaCellKit.
 
 ## Overview
 
-CellKit is designed to replace multiple specialized cell classes with a single, configurable solution. This guide covers common migration scenarios and provides step-by-step instructions.
+MetaCellKit is designed to replace multiple specialized cell classes with a single, configurable solution. This guide covers common migration scenarios and provides step-by-step instructions.
 
 ## Common Migration Scenarios
 
@@ -18,13 +18,13 @@ class PriorityTaskCell: UITableViewCell { ... }
 class CompleteTaskCell: UITableViewCell { ... }
 ```
 
-**After:** Single CellKit with configurations
+**After:** Single MetaCellKit with configurations
 ```swift
-// Replace all with CellKit and different configurations
-let basicConfig = CellKit.basicConfiguration()
-let detailConfig = CellKit.singleMetadataConfiguration(style: .detail)
-let priorityConfig = CellKit.dualMetadataConfiguration()
-let completeConfig = CellKit.tripleMetadataConfiguration(style: .detail)
+// Replace all with MetaCellKit and different configurations
+let basicConfig = MetaCellKit.basicConfiguration()
+let detailConfig = MetaCellKit.singleMetadataConfiguration(style: .detail)
+let priorityConfig = MetaCellKit.dualMetadataConfiguration()
+let completeConfig = MetaCellKit.tripleMetadataConfiguration(style: .detail)
 ```
 
 ### Scenario 2: Manual Data Binding
@@ -86,10 +86,10 @@ First, inventory your existing cell types:
 
 ```swift
 // Identify your current cell classes
-class BasicCell: UITableViewCell { ... }           // → CellKit basic configuration
-class DetailCell: UITableViewCell { ... }          // → CellKit with metadata
-class PriorityCell: UITableViewCell { ... }        // → CellKit with priority metadata
-class StatusCell: UITableViewCell { ... }          // → CellKit with status metadata
+class BasicCell: UITableViewCell { ... }           // → MetaCellKit basic configuration
+class DetailCell: UITableViewCell { ... }          // → MetaCellKit with metadata
+class PriorityCell: UITableViewCell { ... }        // → MetaCellKit with priority metadata
+class StatusCell: UITableViewCell { ... }          // → MetaCellKit with status metadata
 ```
 
 ### Step 2: Create Data Models
@@ -141,7 +141,7 @@ tableView.register(UINib(nibName: "PriorityTaskCell", bundle: nil),
 
 **After:**
 ```swift
-tableView.register(CellKit.self, forCellReuseIdentifier: "CellKit")
+tableView.register(MetaCellKit.self, forCellReuseIdentifier: "MetaCellKit")
 ```
 
 ### Step 4: Update cellForRowAt
@@ -170,7 +170,7 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
 **After:**
 ```swift
 override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
     let task = tasks[indexPath.row]
     
     if task.isHighPriority {
@@ -366,14 +366,14 @@ struct Task: CellDataProtocol {
 
 **Problem:** Your existing cells have custom height calculations.
 
-**Solution:** Enable automatic dimensions and let CellKit handle sizing.
+**Solution:** Enable automatic dimensions and let MetaCellKit handle sizing.
 
 ```swift
 // Enable automatic height
 tableView.rowHeight = UITableView.automaticDimension
 tableView.estimatedRowHeight = 80
 
-// CellKit automatically sizes based on content
+// MetaCellKit automatically sizes based on content
 cell.configure(with: data, metadataViews: 2, style: .detail)
 ```
 
@@ -381,12 +381,12 @@ cell.configure(with: data, metadataViews: 2, style: .detail)
 
 **Problem:** Your cells have custom selection or highlight animations.
 
-**Solution:** CellKit includes built-in animations, but you can add custom animations if needed.
+**Solution:** MetaCellKit includes built-in animations, but you can add custom animations if needed.
 
 ```swift
-// CellKit handles selection automatically, but you can add custom animations
+// MetaCellKit handles selection automatically, but you can add custom animations
 override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    let cell = tableView.cellForRow(at: indexPath) as! CellKit
+    let cell = tableView.cellForRow(at: indexPath) as! MetaCellKit
     
     UIView.animate(withDuration: 0.1, animations: {
         cell.transform = CGAffineTransform(scaleX: 0.95, scaleY: 0.95)
@@ -419,8 +419,8 @@ override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: Inde
 1. **Reuse configurations:**
 ```swift
 // Create configurations once
-private let highPriorityConfig = CellKit.dualMetadataConfiguration(style: .detail)
-private let normalConfig = CellKit.basicConfiguration(style: .master)
+private let highPriorityConfig = MetaCellKit.dualMetadataConfiguration(style: .detail)
+private let normalConfig = MetaCellKit.basicConfiguration(style: .master)
 
 // Reuse in cellForRowAt
 let config = task.isHighPriority ? highPriorityConfig : normalConfig
@@ -439,7 +439,7 @@ cell.configure(with: task, metadataViews: 1, style: .master)
 
 ### Verification Checklist
 
-- [ ] All cell types replaced with CellKit
+- [ ] All cell types replaced with MetaCellKit
 - [ ] Data models conform to `CellDataProtocol`
 - [ ] Cell registration updated
 - [ ] `cellForRowAt` simplified
@@ -464,8 +464,8 @@ If you need to rollback during migration:
 
 ```swift
 // Temporary feature flag approach
-if useNewCellKit {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+if useNewMetaCellKit {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
     cell.configure(with: task, metadataViews: 1, style: .master)
     return cell
 } else {
@@ -477,11 +477,11 @@ if useNewCellKit {
 
 ## Summary
 
-Migrating to CellKit provides:
+Migrating to MetaCellKit provides:
 - **Reduced code complexity** - Single cell class instead of multiple
 - **Automatic data binding** - No more manual outlet management
 - **Consistent styling** - Built-in design system
 - **Better maintainability** - Configuration-based approach
 - **Improved performance** - Optimized cell reuse
 
-The migration process involves updating data models, simplifying cell configuration, and leveraging CellKit's automatic features to reduce custom code.
+The migration process involves updating data models, simplifying cell configuration, and leveraging MetaCellKit's automatic features to reduce custom code.

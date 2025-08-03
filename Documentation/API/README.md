@@ -1,10 +1,10 @@
-# CellKit API Reference
+# MetaCellKit API Reference
 
-Complete API documentation for all CellKit classes, structs, and protocols.
+Complete API documentation for all MetaCellKit classes, structs, and protocols.
 
 ## Core Classes
 
-### [CellKit](CellKit.md)
+### [MetaCellKit](MetaCellKit.md)
 The main table view cell class that provides unified, configurable cell functionality.
 
 **Key Features:**
@@ -59,7 +59,7 @@ Configuration for individual metadata views with full customization options.
 ## Data Binding
 
 ### [CellDataProtocol](CellDataProtocol.md)
-Protocol for data types that can be automatically bound to CellKit cells.
+Protocol for data types that can be automatically bound to MetaCellKit cells.
 
 **Automatic Binding:**
 - `title`/`name` → Main title
@@ -82,7 +82,7 @@ Utility class for automatic date formatting with multiple styles.
 
 ```
 UITableViewCell
-└── CellKit
+└── MetaCellKit
     ├── DynamicBadgeLabel (UILabel)
     └── MetadataView (UIView)
 
@@ -141,23 +141,23 @@ let metadata = MetadataViewConfig(
 
 ## Migration from UITableViewCell
 
-CellKit is designed to replace existing table view cell implementations:
+MetaCellKit is designed to replace existing table view cell implementations:
 
-1. **Single Class**: Replace multiple cell classes with CellKit
+1. **Single Class**: Replace multiple cell classes with MetaCellKit
 2. **Configuration-Based**: Use `CellConfiguration` instead of custom styling
 3. **Automatic Binding**: Conform data to `CellDataProtocol` for automatic binding
 4. **Built-in Styling**: Use master/detail styles instead of custom appearance
 
 ## Performance Considerations
 
-- **Cell Reuse**: CellKit optimizes for efficient cell reuse
+- **Cell Reuse**: MetaCellKit optimizes for efficient cell reuse
 - **Configuration Caching**: Reuse `CellConfiguration` objects when possible
 - **Memory Management**: Automatic cleanup in `prepareForReuse`
 - **Layout Optimization**: Constraint-based layout with performance optimizations
 
 ## Accessibility Support
 
-CellKit includes built-in accessibility features:
+MetaCellKit includes built-in accessibility features:
 - VoiceOver support with automatic labels
 - Dynamic Type support
 - High contrast mode adaptation

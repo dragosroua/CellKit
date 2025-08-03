@@ -1,6 +1,6 @@
 # Basic Usage Examples
 
-This guide provides practical examples of using CellKit in common scenarios.
+This guide provides practical examples of using MetaCellKit in common scenarios.
 
 ## Simple Task List
 
@@ -8,7 +8,7 @@ A basic task list with titles, icons, and badges:
 
 ```swift
 import UIKit
-import CellKit
+import MetaCellKit
 
 struct Task: CellDataProtocol {
     let title: String
@@ -33,7 +33,7 @@ class TaskListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(CellKit.self, forCellReuseIdentifier: "Task")
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "Task")
         tableView.rowHeight = UITableView.automaticDimension
     }
     
@@ -42,7 +42,7 @@ class TaskListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Task", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Task", for: indexPath) as! MetaCellKit
         let task = tasks[indexPath.row]
         
         // Basic configuration - no metadata views
@@ -87,7 +87,7 @@ class ContactListViewController: UITableViewController {
     }
     
     private func setupTableView() {
-        tableView.register(CellKit.self, forCellReuseIdentifier: "Contact")
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "Contact")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.backgroundColor = .systemGroupedBackground
@@ -98,7 +98,7 @@ class ContactListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Contact", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Contact", for: indexPath) as! MetaCellKit
         let contact = contacts[indexPath.row]
         
         // Single metadata view for status
@@ -143,7 +143,7 @@ class SettingsViewController: UITableViewController {
     
     private func setupTableView() {
         title = "Settings"
-        tableView.register(CellKit.self, forCellReuseIdentifier: "Setting")
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "Setting")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.style = .insetGrouped
     }
@@ -153,7 +153,7 @@ class SettingsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Setting", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Setting", for: indexPath) as! MetaCellKit
         let item = settingsItems[indexPath.row]
         
         var config = CellConfiguration()
@@ -223,7 +223,7 @@ class NewsViewController: UITableViewController {
     
     private func setupTableView() {
         title = "News"
-        tableView.register(CellKit.self, forCellReuseIdentifier: "Article")
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "Article")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         tableView.separatorStyle = .none
@@ -235,7 +235,7 @@ class NewsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Article", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Article", for: indexPath) as! MetaCellKit
         let article = articles[indexPath.row]
         
         // Triple metadata: published date, category, read time
@@ -303,7 +303,7 @@ class FileBrowserViewController: UITableViewController {
     
     private func setupTableView() {
         title = "Files"
-        tableView.register(CellKit.self, forCellReuseIdentifier: "File")
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "File")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.style = .plain
     }
@@ -313,7 +313,7 @@ class FileBrowserViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "File", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "File", for: indexPath) as! MetaCellKit
         let file = files[indexPath.row]
         
         // Dual metadata: file size and modified date (automatically formatted)
@@ -361,7 +361,7 @@ class ShoppingCartViewController: UITableViewController {
     
     private func setupTableView() {
         title = "Shopping Cart"
-        tableView.register(CellKit.self, forCellReuseIdentifier: "CartItem")
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "CartItem")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.style = .insetGrouped
     }
@@ -371,7 +371,7 @@ class ShoppingCartViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CartItem", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CartItem", for: indexPath) as! MetaCellKit
         let item = cartItems[indexPath.row]
         
         // Dual metadata: unit price and total price
@@ -425,7 +425,7 @@ class EmailListViewController: UITableViewController {
     
     private func setupTableView() {
         title = "Inbox"
-        tableView.register(CellKit.self, forCellReuseIdentifier: "Email")
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "Email")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.style = .plain
     }
@@ -435,7 +435,7 @@ class EmailListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Email", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Email", for: indexPath) as! MetaCellKit
         let email = emails[indexPath.row]
         
         if email.isImportant {
@@ -457,7 +457,7 @@ class EmailListViewController: UITableViewController {
 
 ```swift
 override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
     let item = items[indexPath.row]
     
     // Configure based on item properties
@@ -477,11 +477,11 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
 
 ```swift
 override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
     let item = items[indexPath.row]
     
     // Different styles for different sections
-    let style: CellKit.CellStyle = indexPath.section == 0 ? .detail : .master
+    let style: MetaCellKit.CellStyle = indexPath.section == 0 ? .detail : .master
     let metadataCount = indexPath.section == 0 ? 2 : 1
     
     cell.configure(with: item, metadataViews: metadataCount, style: style)
@@ -496,11 +496,11 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
 class OptimizedViewController: UITableViewController {
     
     // Pre-create configurations for reuse
-    private let detailConfig = CellKit.dualMetadataConfiguration(style: .detail)
-    private let masterConfig = CellKit.basicConfiguration(style: .master)
+    private let detailConfig = MetaCellKit.dualMetadataConfiguration(style: .detail)
+    private let masterConfig = MetaCellKit.basicConfiguration(style: .master)
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
         let item = items[indexPath.row]
         
         // Use pre-created configurations
@@ -512,4 +512,4 @@ class OptimizedViewController: UITableViewController {
 }
 ```
 
-These examples demonstrate how CellKit can be used across various app types and scenarios, from simple lists to complex data displays, all with minimal code and consistent styling.
+These examples demonstrate how MetaCellKit can be used across various app types and scenarios, from simple lists to complex data displays, all with minimal code and consistent styling.

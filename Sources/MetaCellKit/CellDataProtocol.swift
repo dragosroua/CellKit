@@ -1,8 +1,8 @@
 import Foundation
 
 public protocol CellDataProtocol {
-    // This protocol serves as a marker for data types that can be bound to CellKit
-    // The actual data binding happens through reflection in the CellKit implementation
+    // This protocol serves as a marker for data types that can be bound to MetaCellKit
+    // The actual data binding happens through reflection in the MetaCellKit implementation
     // This allows for automatic date formatting and flexible content handling
 }
 

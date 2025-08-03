@@ -1,6 +1,6 @@
 import UIKit
 
-public class CellKit: UITableViewCell {
+public class MetaCellKit: UITableViewCell {
     
     public enum CellStyle {
         case master

@@ -1,7 +1,7 @@
 import UIKit
 
 public struct CellConfiguration {
-    public var style: CellKit.CellStyle = .master
+    public var style: MetaCellKit.CellStyle = .master
     public var metadataViewCount: Int = 0
     public var metadataConfigs: [MetadataViewConfig] = []
     public var showBadge: Bool = true
@@ -11,7 +11,7 @@ public struct CellConfiguration {
     public init() {}
     
     public init(
-        style: CellKit.CellStyle = .master,
+        style: MetaCellKit.CellStyle = .master,
         metadataViewCount: Int = 0,
         metadataConfigs: [MetadataViewConfig] = [],
         showBadge: Bool = true,

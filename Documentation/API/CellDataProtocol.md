@@ -1,10 +1,10 @@
 # CellDataProtocol
 
-A protocol that marks data types for automatic binding with `CellKit` cells.
+A protocol that marks data types for automatic binding with `MetaCellKit` cells.
 
 ## Overview
 
-`CellDataProtocol` serves as a marker protocol for data types that can be automatically bound to `CellKit` cells. The protocol enables reflection-based data binding with special handling for common property names and automatic date formatting.
+`CellDataProtocol` serves as a marker protocol for data types that can be automatically bound to `MetaCellKit` cells. The protocol enables reflection-based data binding with special handling for common property names and automatic date formatting.
 
 ## Declaration
 
@@ -29,7 +29,7 @@ extension Date: CellDataProtocol {}
 
 ### Automatic Property Binding
 
-`CellKit` automatically binds properties based on their names using reflection:
+`MetaCellKit` automatically binds properties based on their names using reflection:
 
 #### Title Properties
 - `title` → Main title label/text view
@@ -248,6 +248,6 @@ struct Task: CellDataProtocol {
 
 ## See Also
 
-- [CellKit](CellKit.md) - Main cell class that uses this protocol
+- [MetaCellKit](MetaCellKit.md) - Main cell class that uses this protocol
 - [DateFormattingUtility](DateFormattingUtility.md) - Date formatting system
 - [CellConfiguration](CellConfiguration.md) - Cell configuration options

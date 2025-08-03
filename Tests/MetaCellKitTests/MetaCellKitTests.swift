@@ -1,14 +1,14 @@
 import XCTest
-@testable import CellKit
+@testable import MetaCellKit
 import UIKit
 
-final class CellKitTests: XCTestCase {
+final class MetaCellKitTests: XCTestCase {
     
-    var cell: CellKit!
+    var cell: MetaCellKit!
     
     override func setUp() {
         super.setUp()
-        cell = CellKit(style: .default, reuseIdentifier: "TestCell")
+        cell = MetaCellKit(style: .default, reuseIdentifier: "TestCell")
     }
     
     override func tearDown() {

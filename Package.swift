@@ -4,23 +4,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "CellKit",
+    name: "MetaCellKit",
     platforms: [
         .iOS(.v13)
     ],
     products: [
         .library(
-            name: "CellKit",
-            targets: ["CellKit"]),
+            name: "MetaCellKit",
+            targets: ["MetaCellKit"]),
     ],
     dependencies: [
     ],
     targets: [
         .target(
-            name: "CellKit",
+            name: "MetaCellKit",
             dependencies: []),
         .testTarget(
-            name: "CellKitTests",
-            dependencies: ["CellKit"]),
+            name: "MetaCellKitTests",
+            dependencies: ["MetaCellKit"]),
     ]
 )

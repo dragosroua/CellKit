@@ -1,6 +1,6 @@
-# Getting Started with CellKit
+# Getting Started with MetaCellKit
 
-This tutorial will guide you through setting up and using CellKit in your iOS project.
+This tutorial will guide you through setting up and using MetaCellKit in your iOS project.
 
 ## Prerequisites
 
@@ -13,33 +13,33 @@ This tutorial will guide you through setting up and using CellKit in your iOS pr
 ### Swift Package Manager
 
 1. In Xcode, go to **File → Add Package Dependencies**
-2. Enter the repository URL: `https://github.com/dragosroua/CellKit`
+2. Enter the repository URL: `https://github.com/dragosroua/MetaCellKit`
 3. Choose the latest version and add to your target
 
 ### Manual Installation
 
-Alternatively, add CellKit to your `Package.swift`:
+Alternatively, add MetaCellKit to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/dragosroua/CellKit", from: "1.0.0")
+    .package(url: "https://github.com/dragosroua/MetaCellKit", from: "1.0.0")
 ]
 ```
 
 ## Basic Setup
 
-### 1. Import CellKit
+### 1. Import MetaCellKit
 
 Add the import statement to your view controller:
 
 ```swift
 import UIKit
-import CellKit
+import MetaCellKit
 ```
 
 ### 2. Register the Cell
 
-In your table view setup, register the CellKit cell:
+In your table view setup, register the MetaCellKit cell:
 
 ```swift
 class TaskListViewController: UITableViewController {
@@ -47,8 +47,8 @@ class TaskListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Register CellKit
-        tableView.register(CellKit.self, forCellReuseIdentifier: "CellKit")
+        // Register MetaCellKit
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "MetaCellKit")
         
         // Enable automatic row height for dynamic content
         tableView.rowHeight = UITableView.automaticDimension
@@ -85,7 +85,7 @@ Implement `cellForRowAt` to configure your cells:
 
 ```swift
 override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+    let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
     let task = tasks[indexPath.row]
     
     // Simple configuration with 1 metadata view
@@ -95,13 +95,13 @@ override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexP
 }
 ```
 
-## Your First CellKit Implementation
+## Your First MetaCellKit Implementation
 
 Let's create a complete example with a simple task list:
 
 ```swift
 import UIKit
-import CellKit
+import MetaCellKit
 
 class TaskListViewController: UITableViewController {
     
@@ -138,8 +138,8 @@ class TaskListViewController: UITableViewController {
     private func setupTableView() {
         title = "Tasks"
         
-        // Register CellKit
-        tableView.register(CellKit.self, forCellReuseIdentifier: "CellKit")
+        // Register MetaCellKit
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "MetaCellKit")
         
         // Configure for dynamic height
         tableView.rowHeight = UITableView.automaticDimension
@@ -157,7 +157,7 @@ class TaskListViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit", for: indexPath) as! CellKit
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit", for: indexPath) as! MetaCellKit
         let task = tasks[indexPath.row]
         
         // Configure with 2 metadata views to show due date and priority
@@ -218,7 +218,7 @@ if task.priority == "Low" {
 
 ## Next Steps
 
-Now that you have CellKit working, explore these topics:
+Now that you have MetaCellKit working, explore these topics:
 
 1. **[Configuration Guide](Configuration.md)** - Learn about advanced configuration options
 2. **[Data Binding](DataBinding.md)** - Understand how automatic data binding works
@@ -255,7 +255,7 @@ Check that your icon property returns a valid `UIImage`:
 // ✅ Correct
 let icon: UIImage? = UIImage(systemName: "star.fill")
 
-// ✅ Also works - CellKit will convert SF Symbol names
+// ✅ Also works - MetaCellKit will convert SF Symbol names
 let image: String = "star.fill"
 
 // ❌ Won't work - invalid symbol name
@@ -265,9 +265,9 @@ let icon: UIImage? = UIImage(systemName: "invalid-symbol")
 ## Summary
 
 You've learned how to:
-- Install and set up CellKit
+- Install and set up MetaCellKit
 - Create conforming data models
 - Configure basic cells
 - Handle table view integration
 
-CellKit automatically handles layout, data binding, and styling, letting you focus on your app's functionality rather than cell implementation details.
+MetaCellKit automatically handles layout, data binding, and styling, letting you focus on your app's functionality rather than cell implementation details.

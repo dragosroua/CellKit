@@ -1,15 +1,15 @@
-# CellKit
+# MetaCellKit
 
 The main cell class that provides a unified, configurable table view cell system.
 
 ## Overview
 
-`CellKit` is a `UITableViewCell` subclass that replaces multiple specialized cell classes with a single, parametric solution. It supports 0-3 configurable metadata views, automatic data binding, and flexible styling options.
+`MetaCellKit` is a `UITableViewCell` subclass that replaces multiple specialized cell classes with a single, parametric solution. It supports 0-3 configurable metadata views, automatic data binding, and flexible styling options.
 
 ## Declaration
 
 ```swift
-public class CellKit: UITableViewCell
+public class MetaCellKit: UITableViewCell
 ```
 
 ## Topics
@@ -58,7 +58,7 @@ Simplified configuration method for common use cases.
 
 ### Data Binding
 
-CellKit automatically binds data properties to UI elements using reflection:
+MetaCellKit automatically binds data properties to UI elements using reflection:
 
 - `title`, `name` → Main title label/text view
 - `icon`, `image` → Icon image view (supports `UIImage` or SF Symbol names)
@@ -108,7 +108,7 @@ The cell properly implements `prepareForReuse()` to reset all content and stylin
 ### Basic Usage
 
 ```swift
-let cell = tableView.dequeueReusableCell(withIdentifier: "CellKit") as! CellKit
+let cell = tableView.dequeueReusableCell(withIdentifier: "MetaCellKit") as! MetaCellKit
 let taskData = TaskData(title: "Complete project", badge: "3")
 cell.configure(with: taskData, metadataViews: 1, style: .detail)
 ```
@@ -135,7 +135,7 @@ cell.configure(with: taskData, configuration: config)
 
 ```swift
 // Use built-in configuration helpers
-let config = CellKit.dualMetadataConfiguration(style: .detail)
+let config = MetaCellKit.dualMetadataConfiguration(style: .detail)
 cell.configure(with: taskData, configuration: config)
 ```
 
