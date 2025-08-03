@@ -15,7 +15,7 @@ MetaCellKit was born from real-world necessity. Originally developed and extensi
 ### addTaskManager Collection Views
 ![MetaCellKit Demo](Documentation/Assets/metacellkit-demo-small.gif)
 
-*Showing MetaCellKit's flexible configurations, smooth animations, and different metadata layouts in action.*
+*Showing MetaCellKit's flexible configurations, smooth animations, and master  /details layouts in action.*
 
 ### Layout Configurations
 
