@@ -10,6 +10,24 @@ A comprehensive, production-ready Swift package that provides a unified, highly 
 
 MetaCellKit was born from real-world necessity. Originally developed and extensively refined within [addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8), a productivity app based on the Assess - Decide - Do framework, where it powers thousands of task list interactions daily. Through continuous use and iteration in a production environment, MetaCellKit evolved from a simple cell component into a robust, feature-complete solution. The decision to extract and open-source MetaCellKit came from recognizing that many iOS developers face the same challenge: managing multiple specialized table view cells across their apps. What started as an internal solution has now become a universal tool for the iOS development community.
 
+## Examples
+
+### addTaskManager Collection Views
+![MetaCellKit Demo](Documentation/Assets/metacellkit-demo-small.gif)
+
+*Showing MetaCellKit's flexible configurations, smooth animations, and different metadata layouts in action.*
+
+### Layout Configurations
+
+<p align="center">
+  <img src="Documentation/Assets/master-assess.png" width="200" alt="Master Style">
+  <img src="Documentation/Assets/decide-2-metaviews.png" width="200" alt="2 Metadata Views">
+  <img src="Documentation/Assets/decide-3-metaviews.png" width="200" alt="3 Metadata Views">
+  <img src="Documentation/Assets/do-project-view.png" width="200" alt="Project View">
+</p>
+
+*From left to right: Master style in the Assess view, Detail style with 2 metadata views, Detail style with 3 metadata views, and Project view layout demonstrating MetaCellKit's versatility across different content types.*
+
 ## Features
 
 ### 🏗️ Unified Cell Architecture
@@ -35,24 +53,6 @@ MetaCellKit was born from real-world necessity. Originally developed and extensi
 - **Automatic date formatting** with multiple styles
 - **Reflection-based binding** for flexible content
 - **Type-agnostic metadata** content support
-
-## Visual Examples
-
-### addTaskManager Collection Views
-![MetaCellKit Demo](Documentation/Assets/metacellkit-demo-small.gif)
-
-*Live demonstration showing MetaCellKit's flexible configurations, smooth animations, and different metadata layouts in action.*
-
-### Layout Configurations
-
-<p align="center">
-  <img src="Documentation/Assets/master-assess.png" width="200" alt="Master Style">
-  <img src="Documentation/Assets/decide-2-metaviews.png" width="200" alt="2 Metadata Views">
-  <img src="Documentation/Assets/decide-3-metaviews.png" width="200" alt="3 Metadata Views">
-  <img src="Documentation/Assets/do-project-view.png" width="200" alt="Project View">
-</p>
-
-*From left to right: Master style in the Assess view, Detail style with 2 metadata views, Detail style with 3 metadata views, and Project view layout demonstrating MetaCellKit's versatility across different content types.*
 
 ## Installation
 
