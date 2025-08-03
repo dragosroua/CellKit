@@ -304,8 +304,8 @@ We welcome contributions! Please:
 ## Support
 
 - 📖 [Documentation](Documentation/)
-- 🐛 [Issues](https://github.com/your-username/CellKit/issues)
-- 💬 [Discussions](https://github.com/your-username/CellKit/discussions)
+- 🐛 [Issues](https://github.com/dragosroua/CellKit/issues)
+- 💬 [Discussions](https://github.com/dragosroua/CellKit/discussions)
 
 ---
 
