@@ -39,14 +39,14 @@ CellKit was born from real-world necessity. Originally developed and extensively
 Add CellKit to your project using Swift Package Manager:
 
 1. In Xcode, go to **File → Add Package Dependencies**
-2. Enter the repository URL: `https://github.com/your-username/CellKit`
+2. Enter the repository URL: `https://github.com/dragosroua/CellKit`
 3. Choose the version and add to your target
 
 Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/your-username/CellKit", from: "1.0.0")
+    .package(url: "https://github.com/dragosroua/CellKit", from: "1.0.0")
 ]
 ```
 
@@ -309,7 +309,7 @@ We welcome contributions! Please:
 
 - 📖 [Documentation](Documentation/)
 - 🐛 [Issues](https://github.com/dragosroua/CellKit/issues)
-- 💬 [Discussions](https://github.com/dragosroua/CellKit/discussions)
+- 💬 [Discussions](https://github.com/dragosroua/CellKit/issues)
 
 ## Apps Using CellKit
 
@@ -317,7 +317,7 @@ CellKit is actively used in production apps, powering thousands of user interact
 
 - **[addTaskManager](https://itunes.apple.com/app/apple-store/id1492487688?mt=8)** - A comprehensive task management app where CellKit originated. Used throughout the app for task lists, project views, and settings screens, handling complex metadata display including priorities, due dates, contexts, and progress indicators.
 
-*Using CellKit in your app? [Let us know](https://github.com/dragosroua/CellKit/discussions) and we'll add it to this list!*
+*Using CellKit in your app? [Let us know](https://github.com/dragosroua/CellKit/issues) and we'll add it to this list!*
 
 ---
 
