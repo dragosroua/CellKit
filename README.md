@@ -1,7 +1,11 @@
 # MetaCellKit
 
-[![SwiftPM](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](#installation)
-[![License](https://img.shields.io/github/license/dragosroua/MetaCellKit)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/dragosroua/MetaCellKit?style=social)](https://github.com/dragosroua/MetaCellKit/stargazers)
+[![License](https://img.shields.io/github/license/dragosroua/MetaCellKit)](https://github.com/dragosroua/MetaCellKit/blob/main/LICENSE)
+[![SPM compatible](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://swiftpackageindex.com/dragosroua/MetaCellKit)
+![Platform](https://img.shields.io/badge/platform-iOS-lightgrey)
+![Swift](https://img.shields.io/badge/swift-5.7-orange)
+
 
 
 A comprehensive, production-ready Swift package that provides a unified, highly configurable table view cell system for iOS apps. MetaCellKit replaces multiple specialized cell classes with a single, parametric solution that supports 0-3 configurable metadata views with automatic date formatting.
