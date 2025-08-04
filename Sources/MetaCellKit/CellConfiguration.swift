@@ -26,6 +26,7 @@ public struct EditingConfiguration {
     public var placeholderText: String? = "Enter text..."
     public var allowsUndoRedo: Bool = true
     public var characterCountDisplay: CharacterCountStyle = .none
+    public var validationRules: [ValidationRule] = []
     
     public init() {}
 }
