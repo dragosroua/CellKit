@@ -5,6 +5,13 @@ All notable changes to MetaCellKit will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2024-08-04
+
+### Fixed
+- Added missing `validationRules` property to `EditingConfiguration` struct
+- Resolves compilation error when using validation features in projects
+- Maintains full backward compatibility
+
 ## [1.1.1] - 2024-08-04
 
 ### Fixed
