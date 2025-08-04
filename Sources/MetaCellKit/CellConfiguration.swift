@@ -1,5 +1,35 @@
 import UIKit
 
+public enum IconAlignment {
+    case top      // Icon aligned to top of text area
+    case middle   // Icon aligned to middle of text area (default)
+    case bottom   // Icon aligned to bottom of text area
+}
+
+public enum CharacterCountStyle {
+    case none
+    case remaining  // "45 characters remaining"
+    case count      // "55/100"
+    case both       // "55/100 (45 remaining)"
+}
+
+public struct EditingConfiguration {
+    public var isEditingEnabled: Bool = false
+    public var maxTextLength: Int? = nil
+    public var minTextLength: Int? = nil
+    public var keyboardType: UIKeyboardType = .default
+    public var returnKeyType: UIReturnKeyType = .done
+    public var autocapitalizationType: UITextAutocapitalizationType = .sentences
+    public var autocorrectionType: UITextAutocorrectionType = .default
+    public var enablesDynamicHeight: Bool = true
+    public var autoSaveInterval: TimeInterval? = nil
+    public var placeholderText: String? = "Enter text..."
+    public var allowsUndoRedo: Bool = true
+    public var characterCountDisplay: CharacterCountStyle = .none
+    
+    public init() {}
+}
+
 public struct CellConfiguration {
     public var style: MetaCellKit.CellStyle = .master
     public var metadataViewCount: Int = 0
@@ -15,6 +45,10 @@ public struct CellConfiguration {
     public var badgeTextColor: UIColor?
     public var disclosureColor: UIColor?
     
+    // New v1.1.0 features
+    public var iconAlignment: IconAlignment = .middle
+    public var editing: EditingConfiguration = EditingConfiguration()
+    
     public init() {}
     
     public init(
@@ -28,7 +62,9 @@ public struct CellConfiguration {
         iconTintColor: UIColor? = nil,
         badgeBackgroundColor: UIColor? = nil,
         badgeTextColor: UIColor? = nil,
-        disclosureColor: UIColor? = nil
+        disclosureColor: UIColor? = nil,
+        iconAlignment: IconAlignment = .middle,
+        editing: EditingConfiguration = EditingConfiguration()
     ) {
         self.style = style
         self.metadataViewCount = metadataViewCount
@@ -41,6 +77,8 @@ public struct CellConfiguration {
         self.badgeBackgroundColor = badgeBackgroundColor
         self.badgeTextColor = badgeTextColor
         self.disclosureColor = disclosureColor
+        self.iconAlignment = iconAlignment
+        self.editing = editing
     }
 }
 

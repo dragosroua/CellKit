@@ -27,6 +27,18 @@ public class MetaCellKit: UITableViewCell {
     private var configuration: CellConfiguration?
     private var cellStyle: CellStyle = .master
     
+    // MARK: - Internal Properties for Testing
+    internal var currentConfiguration: CellConfiguration? { return configuration }
+    
+    // MARK: - Editing Properties (v1.1.0)
+    public weak var editingDelegate: MetaCellKitEditingDelegate?
+    public private(set) var isEditing: Bool = false
+    private var originalText: String?
+    private var editingTextView: UITextView?
+    private var autoSaveTimer: Timer?
+    private var characterCountLabel: UILabel?
+    private var iconAlignmentConstraint: NSLayoutConstraint?
+    
     // Constraint references for style switching
     private var topConstraint: NSLayoutConstraint!
     private var bottomConstraint: NSLayoutConstraint!
@@ -74,6 +86,105 @@ public class MetaCellKit: UITableViewCell {
     public override func prepareForReuse() {
         super.prepareForReuse()
         resetCell()
+    }
+    
+    // MARK: - Editing Methods (v1.1.0)
+    
+    /// Enables editing mode for the cell
+    public func enableEditing() {
+        guard !isEditing, configuration?.editing.isEditingEnabled == true else { return }
+        
+        isEditing = true
+        originalText = getCurrentText()
+        
+        setupEditingTextView()
+        showEditingInterface()
+        
+        editingDelegate?.cellDidBeginEditing(self)
+        
+        // Start auto-save timer if configured
+        if let interval = configuration?.editing.autoSaveInterval {
+            startAutoSaveTimer(interval: interval)
+        }
+    }
+    
+    /// Disables editing mode and commits changes
+    public func disableEditing() {
+        guard isEditing else { return }
+        
+        let finalText = editingTextView?.text ?? ""
+        
+        // Validate text before committing
+        if let config = configuration, !config.editing.validationRules.isEmpty {
+            let validationResult = ValidationUtility.validateText(finalText, with: config.editing.validationRules)
+            if case .invalid(let message) = validationResult {
+                let error = ValidationError(rule: config.editing.validationRules.first!, message: message)
+                editingDelegate?.cell(self, validationFailedWith: error)
+                return
+            }
+        }
+        
+        commitEditing()
+    }
+    
+    /// Commits the current editing changes
+    @discardableResult
+    public func commitEditing() -> Bool {
+        guard isEditing else { return false }
+        
+        let finalText = editingTextView?.text ?? ""
+        
+        // Validate text
+        if let config = configuration, !config.editing.validationRules.isEmpty {
+            let validationResult = ValidationUtility.validateText(finalText, with: config.editing.validationRules)
+            if case .invalid = validationResult {
+                return false
+            }
+        }
+        
+        stopAutoSaveTimer()
+        hideEditingInterface()
+        setTitle(finalText)
+        
+        isEditing = false
+        editingDelegate?.cellDidEndEditing(self, with: finalText)
+        
+        return true
+    }
+    
+    /// Cancels editing and reverts to original text
+    public func cancelEditing() {
+        guard isEditing else { return }
+        
+        stopAutoSaveTimer()
+        hideEditingInterface()
+        
+        if let original = originalText {
+            setTitle(original)
+        }
+        
+        isEditing = false
+        editingDelegate?.cellDidEndEditing(self, with: originalText ?? "")
+    }
+    
+    /// Gets the current text (either from editing view or title)
+    public func getText() -> String? {
+        if isEditing {
+            return editingTextView?.text
+        } else {
+            return getCurrentText()
+        }
+    }
+    
+    /// Sets the text programmatically
+    public func setText(_ text: String) {
+        if isEditing {
+            editingTextView?.text = text
+            updateCharacterCount()
+            editingDelegate?.cell(self, didChangeText: text)
+        } else {
+            setTitle(text)
+        }
     }
     
     // MARK: - Private Methods
@@ -196,6 +307,10 @@ public class MetaCellKit: UITableViewCell {
             disclosureImageView.widthAnchor.constraint(equalToConstant: 12),
             disclosureImageView.heightAnchor.constraint(equalToConstant: 16)
         ])
+        
+        // Set up initial icon alignment (will be updated in applyStyleConfiguration)
+        iconAlignmentConstraint = iconImageView.centerYAnchor.constraint(equalTo: titleContainer.centerYAnchor)
+        iconAlignmentConstraint?.isActive = true
     }
     
     private func setupMetadataStack() {
@@ -289,6 +404,11 @@ public class MetaCellKit: UITableViewCell {
     }
     
     private func resetCell() {
+        // Cancel editing if active
+        if isEditing {
+            cancelEditing()
+        }
+        
         titleLabel.text = nil
         titleTextView.text = nil
         iconImageView.image = nil
@@ -297,6 +417,9 @@ public class MetaCellKit: UITableViewCell {
         metadataViews.forEach { $0.reset() }
         
         cardView.backgroundColor = (cellStyle == .detail) ? normalDetailCardColor : normalCardColor
+        
+        // Reset editing delegate
+        editingDelegate = nil
     }
     
     private func applyStyleConfiguration() {
@@ -358,6 +481,9 @@ public class MetaCellKit: UITableViewCell {
             if let disclosureColor = config.disclosureColor {
                 disclosureImageView.tintColor = disclosureColor
             }
+            
+            // Apply icon alignment
+            updateIconAlignment()
         }
         
         setNeedsLayout()
@@ -387,5 +513,242 @@ public class MetaCellKit: UITableViewCell {
         
         let changes = { self.cardView.backgroundColor = targetColor }
         animated ? UIView.animate(withDuration: 0.2, animations: changes) : changes()
+    }
+    
+    // MARK: - Editing Helper Methods (v1.1.0)
+    
+    private func getCurrentText() -> String {
+        if titleLabel.isHidden {
+            return titleTextView.text ?? ""
+        } else {
+            return titleLabel.text ?? ""
+        }
+    }
+    
+    private func setupEditingTextView() {
+        guard let config = configuration else { return }
+        
+        let textView = UITextView()
+        textView.backgroundColor = .clear
+        textView.font = config.titleFont ?? UIFont.systemFont(ofSize: 16, weight: .medium)
+        textView.textColor = .label
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = .zero
+        textView.isScrollEnabled = false
+        textView.keyboardType = config.editing.keyboardType
+        textView.returnKeyType = config.editing.returnKeyType
+        textView.autocapitalizationType = config.editing.autocapitalizationType
+        textView.autocorrectionType = config.editing.autocorrectionType
+        textView.delegate = self
+        
+        if config.editing.allowsUndoRedo {
+            textView.allowsEditingTextAttributes = true
+        }
+        
+        textView.text = getCurrentText()
+        if textView.text.isEmpty, let placeholder = config.editing.placeholderText {
+            textView.text = placeholder
+            textView.textColor = .placeholderText
+        }
+        
+        self.editingTextView = textView
+    }
+    
+    private func showEditingInterface() {
+        guard let textView = editingTextView else { return }
+        
+        // Hide the current title display
+        titleLabel.isHidden = true
+        titleTextView.isHidden = true
+        
+        // Add editing text view
+        let titleContainer = titleLabel.superview!
+        titleContainer.addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: titleContainer.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: titleContainer.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: titleContainer.trailingAnchor),
+            textView.bottomAnchor.constraint(equalTo: titleContainer.bottomAnchor)
+        ])
+        
+        // Setup character count if needed
+        setupCharacterCountLabel()
+        
+        // Focus and show keyboard
+        DispatchQueue.main.async {
+            textView.becomeFirstResponder()
+        }
+    }
+    
+    private func hideEditingInterface() {
+        editingTextView?.removeFromSuperview()
+        editingTextView = nil
+        
+        characterCountLabel?.removeFromSuperview()
+        characterCountLabel = nil
+        
+        // Show appropriate title display
+        if configuration?.useTitleTextView == true {
+            titleTextView.isHidden = false
+        } else {
+            titleLabel.isHidden = false
+        }
+    }
+    
+    private func setupCharacterCountLabel() {
+        guard let config = configuration, config.editing.characterCountDisplay != .none else { return }
+        
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .right
+        
+        characterCountLabel = label
+        contentStackView.addArrangedSubview(label)
+        updateCharacterCount()
+    }
+    
+    private func updateCharacterCount() {
+        guard let label = characterCountLabel,
+              let config = configuration,
+              let text = editingTextView?.text else { return }
+        
+        let currentCount = text.count
+        let maxLength = config.editing.maxTextLength
+        
+        switch config.editing.characterCountDisplay {
+        case .none:
+            break
+        case .remaining:
+            if let max = maxLength {
+                let remaining = max - currentCount
+                label.text = "\(remaining) characters remaining"
+                label.textColor = remaining < 10 ? .systemRed : .secondaryLabel
+            }
+        case .count:
+            if let max = maxLength {
+                label.text = "\(currentCount)/\(max)"
+                label.textColor = currentCount > max ? .systemRed : .secondaryLabel
+            } else {
+                label.text = "\(currentCount)"
+            }
+        case .both:
+            if let max = maxLength {
+                let remaining = max - currentCount
+                label.text = "\(currentCount)/\(max) (\(remaining) remaining)"
+                label.textColor = remaining < 10 ? .systemRed : .secondaryLabel
+            }
+        }
+    }
+    
+    private func startAutoSaveTimer(interval: TimeInterval) {
+        stopAutoSaveTimer()
+        autoSaveTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            guard let self = self,
+                  let text = self.editingTextView?.text,
+                  self.editingDelegate?.cellShouldAutoSave(self) == true else { return }
+            
+            self.editingDelegate?.cell(self, didAutoSaveText: text)
+        }
+    }
+    
+    private func stopAutoSaveTimer() {
+        autoSaveTimer?.invalidate()
+        autoSaveTimer = nil
+    }
+    
+    private func updateIconAlignment() {
+        guard let config = configuration else { return }
+        
+        iconAlignmentConstraint?.isActive = false
+        
+        let titleContainer = titleLabel.superview!
+        
+        switch config.iconAlignment {
+        case .top:
+            iconAlignmentConstraint = iconImageView.topAnchor.constraint(equalTo: titleContainer.topAnchor)
+        case .middle:
+            iconAlignmentConstraint = iconImageView.centerYAnchor.constraint(equalTo: titleContainer.centerYAnchor)
+        case .bottom:
+            iconAlignmentConstraint = iconImageView.bottomAnchor.constraint(equalTo: titleContainer.bottomAnchor)
+        }
+        
+        iconAlignmentConstraint?.isActive = true
+    }
+}
+
+// MARK: - UITextViewDelegate
+
+extension MetaCellKit: UITextViewDelegate {
+    
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        guard let config = configuration else { return }
+        
+        // Clear placeholder text
+        if textView.textColor == .placeholderText {
+            textView.text = ""
+            textView.textColor = .label
+        }
+    }
+    
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        // Handle return key
+        if text == "\n" {
+            let shouldReturn = editingDelegate?.cellShouldReturn(self) ?? true
+            if shouldReturn {
+                disableEditing()
+            }
+            return !shouldReturn
+        }
+        
+        // Check max length
+        if let maxLength = configuration?.editing.maxTextLength {
+            let currentText = textView.text ?? ""
+            let newLength = currentText.count + text.count - range.length
+            if newLength > maxLength {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    public func textViewDidChange(_ textView: UITextView) {
+        let text = textView.text ?? ""
+        
+        // Update character count
+        updateCharacterCount()
+        
+        // Update cell height if dynamic height is enabled
+        if configuration?.editing.enablesDynamicHeight == true {
+            updateCellHeight()
+        }
+        
+        // Notify delegate
+        editingDelegate?.cell(self, didChangeText: text)
+        
+        // Real-time validation
+        if let config = configuration, !config.editing.validationRules.isEmpty {
+            let validationResult = ValidationUtility.validateText(text, with: config.editing.validationRules)
+            if case .invalid(let message) = validationResult {
+                // Visual feedback for validation error could be added here
+            }
+        }
+    }
+    
+    private func updateCellHeight() {
+        guard let textView = editingTextView else { return }
+        
+        let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: .greatestFiniteMagnitude))
+        let newHeight = size.height
+        
+        editingDelegate?.cell(self, willChangeHeightTo: newHeight)
+        
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.1) {
+            self.layoutIfNeeded()
+        }
     }
 }
