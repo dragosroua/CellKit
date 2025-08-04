@@ -2,6 +2,9 @@ import UIKit
 
 public class MetaCellKit: UITableViewCell {
     
+    /// Current version of MetaCellKit
+    public static let version = "1.1.1"
+    
     public enum CellStyle {
         case master
         case detail

@@ -482,7 +482,11 @@ cell.configure(with: taskData, configuration: config)
 cell.editingDelegate = self  // NEW: Set editing delegate
 ```
 
-#### What's New in v1.1.0
+#### What's New in v1.1.1
+- 🔧 **Critical Fix**: Resolved `isEditing` property naming conflict with UITableViewCell
+- 🆕 **New API methods**: `isCurrentlyEditing()`, `beginEditing()`, `endEditing()`
+
+#### What's New in v1.1.0  
 - ✅ **No breaking changes** - all existing APIs preserved
 - 🆕 **Editing functionality** - opt-in via configuration
 - 🆕 **Icon alignment** - `.top`, `.middle`, `.bottom` options
