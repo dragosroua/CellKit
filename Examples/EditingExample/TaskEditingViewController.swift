@@ -202,7 +202,7 @@ class TaskEditingViewController: UITableViewController {
         // Start editing the new task after animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? MetaCellKit {
-                cell.beginEditing()
+                cell.enableEditing()
             }
         }
     }

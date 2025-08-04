@@ -32,7 +32,7 @@ public class MetaCellKit: UITableViewCell {
     
     // MARK: - Editing Properties (v1.1.0)
     public weak var editingDelegate: MetaCellKitEditingDelegate?
-    public private(set) var isEditing: Bool = false
+    public private(set) var isInEditMode: Bool = false
     private var originalText: String?
     private var editingTextView: UITextView?
     private var autoSaveTimer: Timer?
@@ -92,9 +92,9 @@ public class MetaCellKit: UITableViewCell {
     
     /// Enables editing mode for the cell
     public func enableEditing() {
-        guard !isEditing, configuration?.editing.isEditingEnabled == true else { return }
+        guard !isInEditMode, configuration?.editing.isEditingEnabled == true else { return }
         
-        isEditing = true
+        isInEditMode = true
         originalText = getCurrentText()
         
         setupEditingTextView()
@@ -110,7 +110,7 @@ public class MetaCellKit: UITableViewCell {
     
     /// Disables editing mode and commits changes
     public func disableEditing() {
-        guard isEditing else { return }
+        guard isInEditMode else { return }
         
         let finalText = editingTextView?.text ?? ""
         
@@ -130,7 +130,7 @@ public class MetaCellKit: UITableViewCell {
     /// Commits the current editing changes
     @discardableResult
     public func commitEditing() -> Bool {
-        guard isEditing else { return false }
+        guard isInEditMode else { return false }
         
         let finalText = editingTextView?.text ?? ""
         
@@ -146,7 +146,7 @@ public class MetaCellKit: UITableViewCell {
         hideEditingInterface()
         setTitle(finalText)
         
-        isEditing = false
+        isInEditMode = false
         editingDelegate?.cellDidEndEditing(self, with: finalText)
         
         return true
@@ -154,7 +154,7 @@ public class MetaCellKit: UITableViewCell {
     
     /// Cancels editing and reverts to original text
     public func cancelEditing() {
-        guard isEditing else { return }
+        guard isInEditMode else { return }
         
         stopAutoSaveTimer()
         hideEditingInterface()
@@ -163,13 +163,13 @@ public class MetaCellKit: UITableViewCell {
             setTitle(original)
         }
         
-        isEditing = false
+        isInEditMode = false
         editingDelegate?.cellDidEndEditing(self, with: originalText ?? "")
     }
     
     /// Gets the current text (either from editing view or title)
     public func getText() -> String? {
-        if isEditing {
+        if isInEditMode {
             return editingTextView?.text
         } else {
             return getCurrentText()
@@ -178,13 +178,28 @@ public class MetaCellKit: UITableViewCell {
     
     /// Sets the text programmatically
     public func setText(_ text: String) {
-        if isEditing {
+        if isInEditMode {
             editingTextView?.text = text
             updateCharacterCount()
             editingDelegate?.cell(self, didChangeText: text)
         } else {
             setTitle(text)
         }
+    }
+    
+    /// Returns whether the cell is currently in editing mode
+    public func isCurrentlyEditing() -> Bool {
+        return isInEditMode
+    }
+    
+    /// Begins editing mode (convenience method)
+    public func beginEditing() {
+        enableEditing()
+    }
+    
+    /// Ends editing mode (convenience method)
+    public func endEditing() {
+        disableEditing()
     }
     
     // MARK: - Private Methods
@@ -405,7 +420,7 @@ public class MetaCellKit: UITableViewCell {
     
     private func resetCell() {
         // Cancel editing if active
-        if isEditing {
+        if isInEditMode {
             cancelEditing()
         }
         

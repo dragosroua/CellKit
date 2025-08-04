@@ -103,6 +103,81 @@ config.useTitleTextView = true  // Uses UITextView for multi-line support
 
 The cell properly implements `prepareForReuse()` to reset all content and styling for efficient reuse in table views.
 
+## Editing Methods (v1.1.0)
+
+### Core Editing Methods
+
+#### `enableEditing()`
+```swift
+public func enableEditing()
+```
+Enables editing mode for the cell. Sets up the editing text view and shows the editing interface.
+
+#### `disableEditing()`
+```swift
+public func disableEditing()
+```
+Disables editing mode and commits changes after validation.
+
+#### `commitEditing()`
+```swift
+@discardableResult
+public func commitEditing() -> Bool
+```
+Commits the current editing changes. Returns `true` if successful, `false` if validation failed.
+
+#### `cancelEditing()`
+```swift
+public func cancelEditing()
+```
+Cancels editing and reverts to the original text.
+
+#### `beginEditing()`
+```swift
+public func beginEditing()
+```
+Convenience method to begin editing (calls `enableEditing()`).
+
+#### `endEditing()`
+```swift
+public func endEditing()
+```
+Convenience method to end editing (calls `disableEditing()`).
+
+### Text Management
+
+#### `getText()`
+```swift
+public func getText() -> String?
+```
+Gets the current text, either from the editing view or the title display.
+
+#### `setText(_:)`
+```swift
+public func setText(_ text: String)
+```
+Sets the text programmatically, updating either the editing view or title display.
+
+#### `isCurrentlyEditing()`
+```swift
+public func isCurrentlyEditing() -> Bool
+```
+Returns whether the cell is currently in editing mode.
+
+### Editing Properties
+
+#### `editingDelegate`
+```swift
+public weak var editingDelegate: MetaCellKitEditingDelegate?
+```
+Delegate for handling editing events, validation errors, and cell height changes.
+
+#### `isInEditMode`
+```swift
+public private(set) var isInEditMode: Bool
+```
+Read-only property indicating whether the cell is currently in editing mode. Uses a custom name to avoid conflicts with UITableViewCell's built-in `isEditing` property.
+
 ## Example Usage
 
 ### Basic Usage
