@@ -70,6 +70,65 @@ public var useTitleTextView: Bool = false
 
 When `true`, uses `UITextView` instead of `UILabel` for the title, enabling multi-line text and text selection.
 
+#### `titleFont`
+
+```swift
+public var titleFont: UIFont?
+```
+
+Custom font for the title text. When `nil`, uses system default.
+
+#### `iconTintColor`
+
+```swift
+public var iconTintColor: UIColor?
+```
+
+Custom tint color for the icon. When `nil`, uses system default.
+
+#### `badgeBackgroundColor`
+
+```swift
+public var badgeBackgroundColor: UIColor?
+```
+
+Custom background color for the badge. When `nil`, uses system red.
+
+#### `badgeTextColor`
+
+```swift
+public var badgeTextColor: UIColor?
+```
+
+Custom text color for the badge. When `nil`, uses white.
+
+#### `disclosureColor`
+
+```swift
+public var disclosureColor: UIColor?
+```
+
+Custom color for the disclosure indicator. When `nil`, uses system gray.
+
+#### `iconAlignment` (v1.1.0)
+
+```swift
+public var iconAlignment: IconAlignment = .middle
+```
+
+Controls how the icon is aligned relative to the text content:
+- `.top` - Icon aligned to top of text area (best for multi-line text)
+- `.middle` - Icon aligned to center of text area (default)
+- `.bottom` - Icon aligned to bottom of text area
+
+#### `editing` (v1.1.0)
+
+```swift
+public var editing: EditingConfiguration = EditingConfiguration()
+```
+
+Configuration for in-place editing functionality. See `EditingConfiguration` for detailed options including validation, auto-save, character counting, and keyboard management.
+
 ### Initializers
 
 #### `init()`
@@ -149,6 +208,95 @@ let config = CellConfiguration(
 )
 ```
 
+### Icon Alignment Configuration (v1.1.0)
+
+```swift
+// Top alignment - perfect for long text content
+var config = CellConfiguration()
+config.iconAlignment = .top
+config.editing.isEditingEnabled = true
+config.editing.enablesDynamicHeight = true
+
+// Middle alignment (default)
+var config = CellConfiguration()
+config.iconAlignment = .middle
+
+// Bottom alignment - unique visual style
+var config = CellConfiguration()
+config.iconAlignment = .bottom
+```
+
+### Editing Configuration (v1.1.0)
+
+```swift
+// Basic editing setup
+var config = CellConfiguration()
+config.editing.isEditingEnabled = true
+config.editing.maxTextLength = 100
+config.editing.characterCountDisplay = .both
+
+// Advanced editing with validation
+var config = CellConfiguration()
+config.editing.isEditingEnabled = true
+config.editing.maxTextLength = 500
+config.editing.minTextLength = 3
+config.editing.autoSaveInterval = 2.0
+config.editing.validationRules = [
+    LengthValidationRule(min: 3, max: 500),
+    RegexValidationRule(pattern: "^[A-Za-z0-9\\s.,!?-]*$", 
+                       message: "Only basic characters allowed")
+]
+```
+
+### Custom Styling Configuration
+
+```swift
+var config = CellConfiguration()
+config.titleFont = UIFont.systemFont(ofSize: 18, weight: .semibold)
+config.iconTintColor = .systemBlue
+config.badgeBackgroundColor = .systemOrange
+config.badgeTextColor = .white
+config.disclosureColor = .systemGray2
+```
+
+### Combined v1.1.0 Features
+
+```swift
+// Comprehensive configuration using all new features
+var config = CellConfiguration()
+config.style = .detail
+config.metadataViewCount = 2
+
+// Icon alignment for long content
+config.iconAlignment = .top
+
+// Custom styling
+config.titleFont = UIFont.systemFont(ofSize: 16, weight: .medium)
+config.iconTintColor = .systemBlue
+
+// Editing functionality
+config.editing.isEditingEnabled = true
+config.editing.maxTextLength = 300
+config.editing.characterCountDisplay = .both
+config.editing.enablesDynamicHeight = true
+config.editing.autoSaveInterval = 3.0
+config.editing.placeholderText = "Enter task description..."
+
+// Validation rules
+config.editing.validationRules = [
+    LengthValidationRule(min: 5, max: 300),
+    CustomValidationRule(message: "Must contain actionable language") { text in
+        let actionWords = ["create", "review", "update", "send", "call", "meet"]
+        return actionWords.contains { text.lowercased().contains($0) }
+    }
+]
+
+// Metadata configurations
+let priorityMetadata = MetadataViewConfig(text: "High", backgroundColor: .systemRed)
+let contextMetadata = MetadataViewConfig(text: "Work", backgroundColor: .systemBlue)
+config.metadataConfigs = [priorityMetadata, contextMetadata]
+```
+
 ## Pre-configured Options
 
 `MetaCellKit` provides convenience methods for common configurations:
@@ -218,5 +366,9 @@ func cellForRowAt(...) -> UITableViewCell {
 ## See Also
 
 - [MetaCellKit](MetaCellKit.md) - Main cell class
-- [MetadataViewConfig](MetadataViewConfig.md) - Metadata view configuration
+- [MetadataViewConfig](MetadataViewConfig.md) - Metadata view configuration  
 - [CellDataProtocol](CellDataProtocol.md) - Data binding protocol
+- [EditingConfiguration](EditingConfiguration.md) - Editing functionality configuration (v1.1.0)
+- [IconAlignment](IconAlignment.md) - Icon positioning options (v1.1.0)
+- [MetaCellKitEditingDelegate](MetaCellKitEditingDelegate.md) - Editing delegate protocol (v1.1.0)
+- [ValidationSystem](ValidationSystem.md) - Text validation system (v1.1.0)

@@ -10,9 +10,12 @@ The main table view cell class that provides unified, configurable cell function
 **Key Features:**
 - Unified cell architecture replacing multiple specialized cells
 - Support for 0-3 configurable metadata views
-- Master and Detail style variants
+- Master and Detail style variants  
 - Automatic data binding with reflection
 - Built-in card-based styling with animations
+- **In-place editing with validation** (v1.1.0)
+- **Dynamic height adjustment** (v1.1.0)
+- **Configurable icon alignment** (v1.1.0)
 
 ### [DynamicBadgeLabel](DynamicBadgeLabel.md)
 Auto-sizing badge component for displaying counts and status indicators.
@@ -44,6 +47,8 @@ Main configuration struct that defines cell layout, styling, and behavior.
 - `showBadge` - Badge visibility control
 - `showDisclosure` - Disclosure indicator control
 - `useTitleTextView` - Title display mode
+- **`iconAlignment`** - Icon positioning (top/middle/bottom) (v1.1.0)
+- **`editing`** - In-place editing configuration (v1.1.0)
 
 ### [MetadataViewConfig](MetadataViewConfig.md)
 Configuration for individual metadata views with full customization options.
@@ -77,6 +82,51 @@ Utility class for automatic date formatting with multiple styles.
 - `.long` - "Monday, January 15, 2024"
 - `.time` - "3:30 PM"
 - `.relative` - "2h ago", "3d ago"
+
+## Editing System (v1.1.0)
+
+### [EditingConfiguration](EditingConfiguration.md)
+Configuration struct for in-place editing functionality with comprehensive customization options.
+
+**Key Properties:**
+- `isEditingEnabled` - Enable/disable editing
+- `maxTextLength`/`minTextLength` - Text length constraints
+- `keyboardType`/`returnKeyType` - Keyboard configuration
+- `autoSaveInterval` - Auto-save timing
+- `characterCountDisplay` - Character count styles
+- `validationRules` - Array of validation rules
+- `enablesDynamicHeight` - Height adjustment during editing
+
+### [MetaCellKitEditingDelegate](MetaCellKitEditingDelegate.md)
+Protocol for handling editing events, validation errors, and height changes.
+
+**Key Methods:**
+- `cellDidBeginEditing` - Editing started
+- `cellDidEndEditing` - Editing completed  
+- `cell(_:didChangeText:)` - Real-time text changes
+- `cell(_:validationFailedWith:)` - Validation errors
+- `cell(_:willChangeHeightTo:)` - Height change notifications
+- `cell(_:didAutoSaveText:)` - Auto-save events
+
+### [ValidationSystem](ValidationSystem.md)
+Comprehensive text validation with built-in and custom validation rules.
+
+**Built-in Rules:**
+- `LengthValidationRule` - Min/max character limits
+- `RegexValidationRule` - Pattern matching validation
+- `CustomValidationRule` - Custom validation logic
+
+**Utilities:**
+- `ValidationUtility.validateText` - Run multiple validation rules
+- `ValidationUtility.getAllErrors` - Get all validation failures
+
+### [IconAlignment](IconAlignment.md)
+Enumeration for icon positioning relative to text content.
+
+**Options:**
+- `.top` - Icon at top of text (best for multi-line content)
+- `.middle` - Icon centered with text (default)
+- `.bottom` - Icon at bottom of text
 
 ## Class Hierarchy
 

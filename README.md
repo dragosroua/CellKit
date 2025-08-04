@@ -58,6 +58,19 @@ MetaCellKit was born from real-world necessity. Originally developed and extensi
 - **Reflection-based binding** for flexible content
 - **Type-agnostic metadata** content support
 
+### ✏️ In-Place Editing (v1.1.0)
+- **Seamless editing mode** with UITextView overlay
+- **Dynamic height adjustment** with smooth animations
+- **Real-time validation** with customizable rules
+- **Character counting** with visual feedback
+- **Auto-save functionality** with configurable intervals
+- **Keyboard management** with return key handling
+
+### 🎯 Icon Alignment (v1.1.0)
+- **Flexible positioning** with top, middle, bottom alignment
+- **Dynamic constraints** that adapt to text content
+- **Perfect for multi-line text** and varying content heights
+
 ## Installation
 
 ### Swift Package Manager
@@ -72,7 +85,7 @@ Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/dragosroua/MetaCellKit", from: "1.0.0")
+    .package(url: "https://github.com/dragosroua/MetaCellKit", from: "1.1.0")
 ]
 ```
 
@@ -132,6 +145,156 @@ config.metadataConfigs = [priorityMetadata, contextMetadata, statusMetadata]
 
 // Apply configuration
 cell.configure(with: taskData, configuration: config)
+```
+
+## Editing Functionality (v1.1.0)
+
+MetaCellKit now supports powerful in-place editing with validation, auto-save, and dynamic height adjustment.
+
+### Basic Editing Setup
+
+```swift
+import MetaCellKit
+
+class TaskViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.register(MetaCellKit.self, forCellReuseIdentifier: "EditableCell")
+        tableView.rowHeight = UITableView.automaticDimension
+    }
+}
+
+// MARK: - Table View Data Source
+extension TaskViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EditableCell", for: indexPath) as! MetaCellKit
+        
+        // Configure for editing
+        var config = CellConfiguration()
+        config.editing.isEditingEnabled = true
+        config.editing.maxTextLength = 100
+        config.editing.characterCountDisplay = .both
+        config.iconAlignment = .top
+        
+        let taskData = tasks[indexPath.row]
+        cell.configure(with: taskData, configuration: config)
+        cell.editingDelegate = self
+        
+        return cell
+    }
+}
+
+// MARK: - Editing Delegate
+extension TaskViewController: MetaCellKitEditingDelegate {
+    func cellDidEndEditing(_ cell: MetaCellKit, with text: String) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        // Update your data model
+        tasks[indexPath.row].title = text
+        saveData()
+    }
+    
+    func cell(_ cell: MetaCellKit, willChangeHeightTo height: CGFloat) {
+        // Animate height changes
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+}
+```
+
+### Advanced Editing Configuration
+
+```swift
+var config = CellConfiguration()
+config.editing.isEditingEnabled = true
+config.editing.maxTextLength = 500
+config.editing.minTextLength = 3
+config.editing.keyboardType = .default
+config.editing.returnKeyType = .done
+config.editing.autoSaveInterval = 2.0
+config.editing.characterCountDisplay = .both
+config.editing.placeholderText = "Enter task description..."
+
+// Add validation rules
+config.editing.validationRules = [
+    LengthValidationRule(min: 3, max: 500),
+    RegexValidationRule(pattern: "^[A-Za-z0-9 .,!?-]*$", 
+                       message: "Only alphanumeric characters and basic punctuation allowed"),
+    CustomValidationRule(message: "Task must contain actionable words") { text in
+        let actionWords = ["create", "review", "update", "send", "call", "meet"]
+        return actionWords.contains { text.lowercased().contains($0) }
+    }
+]
+
+cell.configure(with: taskData, configuration: config)
+cell.editingDelegate = self
+
+// Enable editing programmatically
+cell.enableEditing()
+```
+
+### Icon Alignment with Editing
+
+```swift
+var config = CellConfiguration()
+config.editing.isEditingEnabled = true
+config.editing.enablesDynamicHeight = true
+config.iconAlignment = .top  // Icon stays at top when text expands
+
+// Perfect for tasks with longer descriptions
+let taskData = TaskData(
+    title: "Review the quarterly financial reports and prepare summary presentation for the board meeting next week",
+    icon: UIImage(systemName: "doc.text.magnifyingglass")
+)
+
+cell.configure(with: taskData, configuration: config)
+```
+
+### Validation Error Handling
+
+```swift
+extension TaskViewController: MetaCellKitEditingDelegate {
+    func cell(_ cell: MetaCellKit, validationFailedWith error: ValidationError) {
+        // Show user-friendly error message
+        let alert = UIAlertController(
+            title: "Invalid Input", 
+            message: error.message, 
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+        
+        // Keep editing active to allow corrections
+        // Cell automatically stays in editing mode when validation fails
+    }
+    
+    func cell(_ cell: MetaCellKit, didAutoSaveText text: String) {
+        // Handle auto-save
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        tasks[indexPath.row].title = text
+        // Save to persistent storage
+        autosaveData()
+    }
+}
+```
+
+### Programmatic Text Management
+
+```swift
+// Get current text
+let currentText = cell.getText()
+
+// Set text programmatically
+cell.setText("Updated task title")
+
+// Check if cell is currently being edited
+if cell.isEditing {
+    // User is currently editing
+    cell.commitEditing()  // Save changes
+    // or
+    cell.cancelEditing()  // Discard changes
+}
 ```
 
 ## Layout Variants
@@ -290,6 +453,49 @@ let detailConfig = MetaCellKit.singleMetadataConfiguration(style: .detail)
 let priorityConfig = MetaCellKit.dualMetadataConfiguration()
 ```
 
+### Migrating to v1.1.0 from v1.0.x
+
+MetaCellKit v1.1.0 is **100% backward compatible**. All existing code continues to work without changes.
+
+#### Existing Code (v1.0.x) - Still Works
+```swift
+// Your existing v1.0.x code continues to work unchanged
+let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! MetaCellKit
+cell.configure(with: taskData, metadataViews: 2, style: .detail)
+```
+
+#### New Features Available
+```swift
+// Optional: Upgrade to new configuration system for editing features
+var config = CellConfiguration()
+config.metadataViewCount = 2
+config.style = .detail
+
+// NEW: Add editing capabilities
+config.editing.isEditingEnabled = true
+config.editing.maxTextLength = 200
+
+// NEW: Add icon alignment
+config.iconAlignment = .top
+
+cell.configure(with: taskData, configuration: config)
+cell.editingDelegate = self  // NEW: Set editing delegate
+```
+
+#### What's New in v1.1.0
+- ✅ **No breaking changes** - all existing APIs preserved
+- 🆕 **Editing functionality** - opt-in via configuration
+- 🆕 **Icon alignment** - `.top`, `.middle`, `.bottom` options
+- 🆕 **Validation rules** - customizable text validation
+- 🆕 **Auto-save** - configurable intervals
+- 🆕 **Dynamic height** - automatic adjustment during editing
+
+#### Gradual Migration Strategy
+1. **Keep existing code** - no immediate changes needed
+2. **Identify editing candidates** - cells that would benefit from editing
+3. **Migrate incrementally** - convert one screen at a time
+4. **Test thoroughly** - new features are opt-in and safe
+
 ## Performance
 
 MetaCellKit is optimized for:
@@ -297,6 +503,100 @@ MetaCellKit is optimized for:
 - **Memory management**: Minimal object allocation
 - **Layout performance**: Constraint-based layout with caching
 - **Smooth scrolling**: Optimized for large datasets
+
+## Troubleshooting
+
+### Common Editing Issues
+
+#### Cell Height Not Updating During Editing
+```swift
+// ✅ Solution: Ensure dynamic height is enabled and delegate is implemented
+var config = CellConfiguration()
+config.editing.enablesDynamicHeight = true
+
+// Implement the delegate method
+func cell(_ cell: MetaCellKit, willChangeHeightTo height: CGFloat) {
+    tableView.beginUpdates()
+    tableView.endUpdates()
+}
+
+// Ensure table view supports dynamic height
+tableView.rowHeight = UITableView.automaticDimension
+tableView.estimatedRowHeight = 80
+```
+
+#### Editing Not Starting
+```swift
+// ✅ Check these common issues:
+
+// 1. Editing must be enabled in configuration
+config.editing.isEditingEnabled = true
+
+// 2. Delegate must be set
+cell.editingDelegate = self
+
+// 3. Make sure you're calling enableEditing()
+cell.enableEditing()
+```
+
+#### Validation Errors Not Showing
+```swift
+// ✅ Implement the validation delegate method
+func cell(_ cell: MetaCellKit, validationFailedWith error: ValidationError) {
+    // Show error to user - this method won't be called automatically
+    showAlert(message: error.message)
+}
+
+// ✅ Validation rules must be added to configuration
+config.editing.validationRules = [
+    LengthValidationRule(min: 1, max: 100)
+]
+```
+
+#### Auto-Save Not Working
+```swift
+// ✅ Ensure both methods are implemented
+func cell(_ cell: MetaCellKit, didAutoSaveText text: String) {
+    // Handle the auto-save
+    saveData(text)
+}
+
+func cellShouldAutoSave(_ cell: MetaCellKit) -> Bool {
+    // Return true to allow auto-save
+    return true
+}
+
+// ✅ Set auto-save interval
+config.editing.autoSaveInterval = 2.0  // Save every 2 seconds
+```
+
+#### Keyboard Not Dismissing
+```swift
+// ✅ Handle return key properly
+func cellShouldReturn(_ cell: MetaCellKit) -> Bool {
+    // Return true to dismiss keyboard and end editing
+    return true
+}
+
+// ✅ Or dismiss programmatically
+cell.disableEditing()  // Commits changes and dismisses keyboard
+cell.cancelEditing()   // Reverts changes and dismisses keyboard
+```
+
+### Performance Tips
+
+- **Reuse cells properly**: Always use `dequeueReusableCell`
+- **Limit metadata views**: Use 0-3 metadata views for optimal performance
+- **Optimize validation**: Keep validation rules simple and fast
+- **Auto-save frequency**: Don't set auto-save intervals too low (< 1 second)
+
+### Best Practices
+
+- **Validation feedback**: Always implement `validationFailedWith` delegate method
+- **Height animations**: Use `willChangeHeightTo` for smooth table view updates  
+- **Data persistence**: Implement both `didEndEditing` and `didAutoSaveText`
+- **Error handling**: Gracefully handle validation errors with user-friendly messages
+- **Icon alignment**: Use `.top` alignment for cells with long, multi-line text
 
 ## Requirements
 
