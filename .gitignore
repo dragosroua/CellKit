@@ -20,3 +20,8 @@ DerivedData/
 .idea/
 *.swp
 *.swo
+
+.claude/
+Claude.md
+Features.md
+metacellkit-version-1.1.0.md
